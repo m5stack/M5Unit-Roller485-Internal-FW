@@ -1,0 +1,17 @@
+{
+    "files.associations": {
+        "u8g2.h": "c",
+        "u8g2_disp_fun.h": "c",
+        "encoder.h": "c",
+        "mysys.h": "c",
+        "compare": "c",
+        "button.h": "c",
+        "i2c.h": "c",
+        "stm32g4xx_ll_i2c.h": "c",
+        "stm32g4xx_hal.h": "c",
+        "stm32g431xx.h": "c",
+        "stm32g4xx.h": "c",
+        "mt6816.h": "c",
+        "main.h": "c"
+    }
+}
