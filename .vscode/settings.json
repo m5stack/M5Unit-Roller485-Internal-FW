@@ -1,6 +1,0 @@
-{
-    "files.associations": {
-        "mysys.h": "c",
-        "arm_const_structs.h": "c"
-    }
-}
