@@ -52,34 +52,6 @@
 
 u8g2_t u8g2;
 
-void OLED_U8G2_Init(void)
-{
-//   GPIO_InitTypeDef GPIO_InitStruct = {0};
-
-//   /* GPIOB/GPIOC clock enable */
-//   __HAL_RCC_GPIOB_CLK_ENABLE();
-//   __HAL_RCC_GPIOC_CLK_ENABLE(); 
-
-//   /*Configure GPIO pin Output Level */
-//   HAL_GPIO_WritePin(OLED_DC_GPIO_Port, OLED_DC_Pin, GPIO_PIN_RESET);
-//   /*Configure GPIO pin Output Level */
-//   HAL_GPIO_WritePin(GPIOB, LED_Pin|OLED_RST_Pin|OLED_SDA_Pin|OLED_SCL_Pin, GPIO_PIN_RESET);
-//   /*Configure GPIO pin : PtPin */
-//   GPIO_InitStruct.Pin = OLED_DC_Pin;
-//   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-//   GPIO_InitStruct.Pull = GPIO_NOPULL;
-//   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-//   HAL_GPIO_Init(OLED_DC_GPIO_Port, &GPIO_InitStruct);
-//   /*Configure GPIO pins : PBPin PBPin PBPin PBPin 
-//                            PBPin */
-//   GPIO_InitStruct.Pin = OLED_RST_Pin|OLED_SDA_Pin|OLED_SCL_Pin;
-//   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
-//   GPIO_InitStruct.Pull = GPIO_NOPULL;
-//   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
-//   HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);    
-
-}
-
 uint8_t u8x8_stm32_gpio_and_delay(U8X8_UNUSED u8x8_t *u8x8,
     U8X8_UNUSED uint8_t msg, U8X8_UNUSED uint8_t arg_int,
     U8X8_UNUSED void *arg_ptr)

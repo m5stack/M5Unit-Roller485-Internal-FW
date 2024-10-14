@@ -522,32 +522,6 @@ void InitMysys(void)
 
 	EncoderInit();
   HAL_Delay(300);
-
-  // //wait for encoder calibration  等待编码器校准，此处临时使用阻塞式，实际使用不要阻塞
-  // while(IsMotorDriverEncCalBusy())
-  // {
-  //   ;
-  // }
-
-
-
-  //start motor driver 配置驱动为正常输出模式
-  // MotorDriverSetMode(MDRV_MODE_RUN);  
-
-//以下为实际使用：
-//正常运行时调用方式二选一均可
-
-  
-  //配置电机电流目标值，此为ADC值，范围-1500 ~ +1500,对应最大相电流约为+-1.2A(非母线电流，即电源输入电流)
-  //数据类型int32_t
-
-  //MotorDriverSetCurrentAdc(200);
-
-
-  //配置电机电流目标值，此为实际值，范围-1200.0 ~ +1200.0, 对应最大相电流约为+-1.2A(非母线电流，即电源输入电流)
-  //数据类型float32_t
-
-  // MotorDriverSetCurrentReal(1000.0f);  
   init_flash_data();
   u8g2Init(&u8g2);  
   if (!HAL_GPIO_ReadPin(SYS_SW_GPIO_Port, SYS_SW_Pin)) {
@@ -571,12 +545,6 @@ void InitMysys(void)
   }  
 
   u8g2_disp_init();
-  // pid_ctrl_speed_t.setpoint = 50;
-  // pid_ctrl_pos_t.setpoint = 0.0f;
-  // u8g2_disp_speed();
-  // u8g2_disp_pos();
-  // u8g2_disp_current();
-  // u8g2_disp_all();
 }
 
 
@@ -586,14 +554,6 @@ void LoopMysys(void)
 {
     while(1)
     {	  
-        // if (over_vol_protect_auto_flag && over_vol_protect_mode) {
-        //   if (HAL_GetTick() - over_vol_protect_auto_counter > 2000) {
-        //     over_vol_protect_auto_flag = 0;
-        //     over_vol_flag = 0;
-        //     error_code &= ~ERR_OVER_VOLTAGE;
-        //     sys_status = SYS_STANDBY;
-        //   }
-        // }
         i2c_timeout_counter = 0;
         if (i2c_stop_timeout_flag) {
           if (i2c_stop_timeout_delay < HAL_GetTick()) {
@@ -708,32 +668,6 @@ void LoopMysys(void)
           break;
         }
         ws2812_flash();
-        // u8g2_disp_update_status();
-        // u8g2_disp_update_vin(vol_input);
-        //voltage
-        // OLED_ShowNum(30,16, vol_input/100,2,8,1);
-        // OLED_ShowNum(48,16, vol_input/10%10,1,8,1);
-
-        // //current
-        // OLED_ShowNum(30,24, ph_current_max/1000,1,8,1);
-        // OLED_ShowNum(42,24, ph_current_max/10%100,2,8,1);
-          
-        // //angle
-        // OLED_ShowNum(30,32,MotorDriverGetMechanicalAngle()/10,3,8,1);
-        // OLED_ShowNum(53,32,MotorDriverGetMechanicalAngle()%10,1,8,1);
-        // OLED_Refresh();
-
-        // if (angle_error > 0.2f) {
-        //   neopixel_set_color(0, ((0x10 << 16) | (0 << 8) | 0));   
-        //   neopixel_set_color(1, ((0x10 << 16) | (0 << 8) | 0));   
-
-        //   ws2812_show();           
-        // } else {
-        //   neopixel_set_color(0, ((0 << 16) | (0x10 << 8) | 0));   
-        //   neopixel_set_color(1, ((0 << 16) | (0x10 << 8) | 0));   
-
-        //   ws2812_show();          
-        // }
         
         if (act_delay < HAL_GetTick()) {
           running_index++;
@@ -747,14 +681,6 @@ void LoopMysys(void)
             status_flag = 1;
             // OLED_ShowString(0,0," M5 BLDC *",8,1);
           }
-          // if (act_flag == 1) {
-          //   angle_target += 360.0f;
-          // } else if (act_flag == 3) {
-          //   angle_target = 180.0f;
-          // }   
-					// if (angle_target > 540.0f) {
-					// 	angle_target = 180.0f;
-					// }
           act_delay = HAL_GetTick() + 1000;
         }
 	}
@@ -788,15 +714,6 @@ void Loop_Control(void)
     mechanical_angle =  (360.0f * mechanical_turns) + encoder_absolute_angle_new;
 
     mechanical_rad =  mechanical_angle * PI / 180.0f;
-
-    // angle_error =  angle_target - mechanical_angle ;
-
-    // uq_output = angle_error * angle_kp;
-
-    // if(uq_output > uq_limit) uq_output = uq_limit;
-    // if(uq_output < -uq_limit) uq_output = -uq_limit;
-
-    // MotorDriverSetCurrentReal(uq_output);
 
     //lpfdata += (1.0 / (1.0 + 1.0/(2.0f * 3.14f *T*fc)))*(rawdata - lpfdata );
     //lpfdata ： 滤波后的数据。
@@ -900,14 +817,6 @@ void Rpm_Count_100us(void)
   if (speed_encoder_value_t.encoder_value != speed_encoder_value_t.last_encoder_value) {
     diff_encoder_value = speed_encoder_value_t.encoder_value - speed_encoder_value_t.last_encoder_value;
     diff_encoder_value_lpf += (1.0f / (1.0f + 1.0f/(2.0f * 3.14f *0.00017857142857f*2.0f)))*(diff_encoder_value - diff_encoder_value_lpf );
-    // if (avg_filter_level != 0) {
-    //   speed_record[record_index] = diff_encoder_value_lpf;
-    //   record_index++;
-    //   if (record_index >= avg_filter_level) {
-    //     record_index = 0;
-    //   }
-    //   diff_encoder_value_lpf = avg_filter(speed_record, avg_filter_level);
-    // }       
     motor_rpm = diff_encoder_value_lpf / 16383.0f * 336000;
     speed_encoder_value_t.last_encoder_value = speed_encoder_value_t.encoder_value;
   }

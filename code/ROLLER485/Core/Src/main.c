@@ -359,128 +359,6 @@ void Slave_Complete_Callback(uint8_t *rx_data, uint16_t len)
         }
       }
     }    
-    // if (rx_data[0] == 0) {
-    //   motor_output = rx_data[1];
-    //   if (motor_output) {
-    //     if (!over_vol_flag && !err_stalled_flag) {
-    //       motor_disable_flag = 0;
-    //       if (motor_mode == MODE_DIAL) {
-    //         init_smart_knob();
-    //       }          
-    //       MotorDriverSetMode(MDRV_MODE_RUN);
-    //     }
-    //   }
-    //   else {
-    //     motor_disable_flag = 1;
-    //     MotorDriverSetMode(MDRV_MODE_OFF);
-    //   }
-    // }
-    // else if (rx_data[0] == 1) {
-    //   if (rx_data[1] && rx_data[1] < MODE_MAX && !err_stalled_flag) {
-    //     motor_mode = rx_data[1];
-    //     if (last_motor_mode != motor_mode) {
-    //       if (motor_mode < MODE_DIAL) {
-    //         MotorDriverSetCurrentReal(0);
-    //         init_pid();
-    //         pid_ctrl_speed_t.iTerm = 0;
-    //         pid_ctrl_pos_t.iTerm = 0;
-    //       }
-    //       else if (motor_mode == MODE_DIAL) {
-    //         init_smart_knob();
-    //       }
-    //       else if (motor_mode == MODE_POS_SPEED) {
-    //         MotorDriverSetCurrentReal(0);
-    //         PIDTuningsSet(&pid_ctrl_speed_t, speed_pid_plus_float[0], speed_pid_plus_float[1], speed_pid_plus_float[2]);
-    //         PIDTuningsSet(&pid_ctrl_pos_t, pos_pid_plus_float[0], pos_pid_plus_float[1], pos_pid_plus_float[2]);
-    //         pid_ctrl_speed_t.iTerm = 0;
-    //         pid_ctrl_pos_t.iTerm = 0; 
-    //       }
-    //       last_motor_mode = motor_mode;
-    //     }
-    //   }
-    // }
-    // else if (rx_data[0] == 0x02) {
-    //   if (rx_data[1])
-    //     over_vol_protect_mode = 1;
-    //   else
-    //     over_vol_protect_mode = 0;
-    // }    
-    // else if (rx_data[0] == 0x03) {
-    //   if (rx_data[1]) {
-    //     if (over_vol_flag)
-    //       sys_status = SYS_STANDBY;
-    //     over_vol_flag = 0;
-    //     error_code &= ~ERR_OVER_VOLTAGE;
-    //   }
-    // }
-    // else if (rx_data[0] == 0x0B) {
-    //   if (rx_data[1]) {
-    //     speed_err_recover_try_counter = 0;
-    //     pos_err_recover_try_counter = 0;
-    //     if (motor_mode == MODE_SPEED_ERR_PROTECT) {
-    //       sys_status = SYS_STANDBY;
-    //       motor_mode = MODE_SPEED;
-    //     }
-    //     else if (motor_mode == MODE_POS_ERR_PROTECT) {
-    //       sys_status = SYS_STANDBY;
-    //       motor_mode = MODE_POS;
-    //     }
-    //     error_code &= ~ERR_STALLED;
-    //     speed_err_count_flag = 0;
-    //     speed_err_auto_flag = 0;
-    //     pos_err_count_flag = 0;
-    //     pos_err_auto_flag = 0;
-    //     err_stalled_flag = 0;
-    //   }
-    // }
-    // else if (rx_data[0] >= 0x04 && rx_data[0] <= 0x0A) {
-    //   for(int i = 0; i < len - 1; i++) {
-    //     rx_buf[rx_data[0]-0x04+i] = rx_data[1+i];
-    //     rx_mark[rx_data[0]-0x04+i] = 1;     
-    //   }
-
-    //   if (rx_mark[0]) {
-    //     speed_err_value &= ~0x00ff;
-    //     speed_err_value |= rx_buf[0];
-    //   }
-    //   if (rx_mark[1]) {
-    //     speed_err_value &= ~0xff00;
-    //     speed_err_value |= (rx_buf[1] << 8);
-    //   }
-    //   if (rx_mark[2]) {
-    //     speed_err_timeout = rx_buf[2];
-    //   }
-    //   if (rx_mark[3]) {
-    //     pos_err_value &= ~0x00ff;
-    //     pos_err_value |= rx_buf[3];
-    //   }
-    //   if (rx_mark[4]) {
-    //     pos_err_value &= ~0xff00;
-    //     pos_err_value |= (rx_buf[4] << 8);
-    //   }
-    //   if (rx_mark[5]) {
-    //     pos_err_timeout = rx_buf[5];
-    //   }
-    //   if (rx_mark[6]) {
-    //     err_recover_try_max = rx_buf[6];
-    //   }
-    // }
-    // else if (rx_data[0] == 0x0E) {
-    //   if (rx_data[1]) {
-    //     mode_switch_flag = 1;
-    //   }
-    //   else {
-    //     mode_switch_flag = 0;
-    //   }
-    // }
-    // else if (rx_data[0] == 0x0F) {
-    //   if (rx_data[1]) {
-    //     motor_stall_protection_flag = 1;
-    //   }
-    //   else {
-    //     motor_stall_protection_flag = 0;
-    //   }
-    // }
     else if (rx_data[0] == 0xF1) {
       if (rx_data[1]) {
         if (!over_vol_flag)
@@ -518,7 +396,6 @@ void Slave_Complete_Callback(uint8_t *rx_data, uint16_t len)
         speed_point |= (rx_buf[3] << 24);
       }
 
-      // pid_ctrl_speed_t.iTerm = 0;
       if (speed_point > MY_INT32_MAX)
         speed_point = MY_INT32_MAX;
       else if (speed_point < MY_INT32_MIN)
@@ -922,35 +799,12 @@ void Slave_Complete_Callback(uint8_t *rx_data, uint16_t len)
       tx_buf[0x0F] = motor_stall_protection_flag;
       i2c1_set_send_data((uint8_t *)&tx_buf[rx_data[0]], 0x0F-rx_data[0]+1);
     }
-    // else if (rx_data[0] == 0) {
-    //   motor_output ? (motor_output = 1) : (motor_output = 0);
-    //   i2c1_set_send_data(&motor_output, 1);
-    // }
-    // else if (rx_data[0] == 1) {
-    //   uint8_t motor_mode_temp = motor_mode;
-    //   if (motor_mode == MODE_SPEED_ERR_PROTECT) {
-    //     motor_mode_temp = MODE_SPEED;
-    //   }
-    //   else if (motor_mode == MODE_POS_ERR_PROTECT) {
-    //     motor_mode_temp = MODE_POS;
-    //   }
-    //   i2c1_set_send_data(&motor_mode_temp, 1);
-    // }
-    // else if (rx_data[0] == 0x02) {
-    //   i2c1_set_send_data(&over_vol_protect_mode, 1);
-    // }    
     else if (rx_data[0] >= 0x10 && rx_data[0] <= 0x12) {
       tx_buf[0] = motor_id;
       tx_buf[1] = bps_index;
       tx_buf[2] = brightness_index;
       i2c1_set_send_data((uint8_t *)&tx_buf[rx_data[0]-0x10], 0x12-rx_data[0]+1);      
     }
-    // else if (rx_data[0] == 0x0C) {
-    //   i2c1_set_send_data(&sys_status, 1);
-    // }
-    // else if (rx_data[0] == 0x0D) {
-    //   i2c1_set_send_data(&error_code, 1);
-    // }
     else if ((rx_data[0] >= 0x30) && (rx_data[0] <= 0x3F))
     {
       int32_t vol_int32 = (int32_t)vol_lpf;
@@ -961,16 +815,6 @@ void Slave_Complete_Callback(uint8_t *rx_data, uint16_t len)
       memcpy(&tx_buf[12], (uint8_t *)&current_position, 4);
       i2c1_set_send_data((uint8_t *)&tx_buf[rx_data[0]-0x30], 0x3F-rx_data[0]+1);
     } 
-    // else if (rx_data[0] >= 0x34 && rx_data[0] <= 0x37) {
-    //   int32_t vol_int32 = (int32_t)vol_lpf;
-    //   i2c1_set_send_data((uint8_t *)&vol_int32, 4);
-    // }
-    // else if (rx_data[0] >= 0x38 && rx_data[0] <= 0x3B) {
-    //   i2c1_set_send_data((uint8_t *)&internal_temp, 4);
-    // }
-    // else if (rx_data[0] >= 0x3C && rx_data[0] <= 0x3F) {
-    //   i2c1_set_send_data((uint8_t *)&current_position, 4);
-    // }
     else if (rx_data[0] >= 0x40 && rx_data[0] <= 0x43) {
       i2c1_set_send_data((uint8_t *)&speed_point, 4);
     } 
@@ -1045,20 +889,6 @@ void Slave_Complete_Callback(uint8_t *rx_data, uint16_t len)
     else if (rx_data[0] == 0xFF) {
       i2c1_set_send_data((uint8_t *)&i2c_address[0], 1);  
     }
-    // else if (rx_data[0] >= 0x04 && rx_data[0] <= 0x0A) {
-    //   memcpy(tx_buf, (uint8_t *)&speed_err_value, 2);
-    //   memcpy(tx_buf+2, (uint8_t *)&speed_err_timeout, 1);
-    //   memcpy(tx_buf+3, (uint8_t *)&pos_err_value, 2);
-    //   memcpy(tx_buf+5, (uint8_t *)&pos_err_timeout, 1);
-    //   memcpy(tx_buf+6, (uint8_t *)&err_recover_try_max, 1);
-    //   i2c1_set_send_data((uint8_t *)&tx_buf[rx_data[0]-0x04], 0x0A-rx_data[0]+1);      
-    // }           
-    // else if (rx_data[0] == 0x0E) {
-    //   i2c1_set_send_data((uint8_t *)&mode_switch_flag, 1);      
-    // }           
-    // else if (rx_data[0] == 0x0F) {
-    //   i2c1_set_send_data((uint8_t *)&motor_stall_protection_flag, 1);      
-    // }           
   }
 }
 /* USER CODE END 0 */

@@ -94,45 +94,6 @@ const unsigned char gImage_comm_back_11x8[] =
 0x07,0xFF,0x07,0xFE,0x03,
 };
 
-// const unsigned char gImage_logo[] =
-// {
-// 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-// 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-// 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-// 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x06,0x00,
-// 0xE1,0xFF,0x01,0x00,0x00,0x00,0x06,0x80,0x21,0x00,0x00,
-// 0x00,0x00,0x00,0x0E,0xC0,0x21,0x00,0x00,0x00,0x00,0x00,
-// 0x1E,0xC0,0x21,0x00,0x00,0x00,0x00,0x00,0x3E,0xF0,0x21,
-// 0x00,0x00,0x00,0x00,0x00,0x62,0x30,0x21,0x00,0x00,0x00,
-// 0x00,0x00,0x62,0x18,0x21,0x00,0x00,0x00,0x00,0x00,0xC2,
-// 0x18,0x21,0x00,0x00,0x00,0x00,0x00,0x82,0x0F,0xE1,0x3F,
-// 0x00,0x00,0x00,0x00,0x82,0x07,0x01,0xE0,0x00,0x00,0x00,
-// 0x00,0x02,0x03,0x01,0x80,0x00,0x00,0x00,0x00,0x02,0x00,
-// 0x01,0x80,0x01,0x00,0x00,0x00,0x02,0x00,0x01,0x00,0x01,
-// 0x00,0x00,0x00,0x02,0x00,0x01,0x00,0x01,0x00,0x00,0x00,
-// 0x02,0x00,0x01,0x00,0x01,0x00,0x00,0x00,0x02,0x00,0x01,
-// 0x00,0x01,0x00,0x00,0x00,0x02,0x00,0x01,0x80,0x00,0x00,
-// 0x00,0x00,0x02,0x00,0x01,0x80,0x00,0x00,0x00,0x00,0x02,
-// 0x00,0x01,0x20,0x00,0x00,0x00,0x00,0x02,0x00,0xE1,0x1F,
-// 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-// 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-// 0x00,0x00,0x00,0x00,0x00,0xE0,0xFF,0xFF,0xFF,0xFF,0x1F,
-// 0x00,0x00,0xE0,0xFF,0xFF,0xFF,0xFF,0x1F,0x00,0x00,0xE0,
-// 0xFF,0xFF,0xFF,0xFF,0x1F,0x00,0x00,0xE0,0x03,0xF3,0x83,
-// 0x8F,0x1F,0x00,0x00,0xE0,0x03,0xF2,0x03,0x03,0x1F,0x00,
-// 0x00,0xE0,0x73,0xF2,0x33,0x32,0x1F,0x00,0x00,0xE0,0x73,
-// 0xF2,0x73,0xF2,0x1F,0x00,0x00,0xE0,0x03,0xF2,0x73,0xF2,
-// 0x1F,0x00,0x00,0xE0,0x03,0xF2,0x73,0xF2,0x1F,0x00,0x00,
-// 0xE0,0x73,0xF2,0x73,0xF2,0x1F,0x00,0x00,0xE0,0x73,0xF2,
-// 0x73,0x32,0x1F,0x00,0x00,0xE0,0x03,0x02,0x02,0x03,0x1F,
-// 0x00,0x00,0xE0,0x03,0x03,0x02,0x87,0x1F,0x00,0x00,0xE0,
-// 0xFF,0xFF,0xFF,0xFF,0x1F,0x00,0x00,0xE0,0xFF,0xFF,0xFF,
-// 0xFF,0x1F,0x00,0x00,0xE0,0xFF,0xFF,0xFF,0xFF,0x1F,0x00,
-// 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-// 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-// 0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00,
-// };
-
 const unsigned char gImage_logo[] =
 {
 0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,0xFF,
@@ -209,29 +170,6 @@ key_table table[30]=
 	{18,18,18,8,18,(*u8g2_disp_menu_8_1)},						                	
 	{19,19,19,9,19,(*u8g2_disp_menu_9_1)},						                	
 	{20,20,20,10,20,(*u8g2_disp_menu_10_1)},						                	
-	// {8,8,3,8,(*page_setup_model_0)},
-	// {9,9,4,9,(*page_setup_pairs_0)},					
-	// {10, 9,11,21,(*fun_b22)},
-	// {11,10,12,22,(*fun_b23)},						                	
-	// {12,11, 9, 2,(*fun_b24)},
-	
-	// {13,16,14,23,(*fun_c21)},					
-	// {14,13,15,24,(*fun_c22)},				                	
-	// {15,14,16,25,(*fun_c23)},				                	
-	// {16,15,13, 3,(*fun_c24)},
-	
-  //   //第3层
-	// {17,17,17,5,(*fun_a31)},			                	
-	// {18,18,18,6,(*fun_a32)},		                	
-	// {19,19,19,7,(*fun_a33)},
-	
-	// {20,20,20, 9,(*fun_b31)},				                	
-	// {21,21,21,10,(*fun_b32)},			                	
-	// {22,22,22,11,(*fun_b33)},
-	
-	// {23,23,23,13,(*fun_c31)},			                	
-	// {24,24,24,14,(*fun_c32)},			                	
-	// {25,25,25,15,(*fun_c33)},								
 };
 
 long map(long x, long in_min, long in_max, long out_min, long out_max) {
@@ -264,16 +202,6 @@ void u8g2_disp_init(void)
     u8g2_DrawStr(&u8g2, 2, 26+2-1, ".");
     u8g2_DrawStr(&u8g2, 2, 32+2-2, "."); 
     u8g2_DrawStr(&u8g2, 2, 38+2-2, ".");
-    // u8g2_DrawGlyph(&u8g2, 2, 26+2, 0x0053); 
-    // u8g2_DrawGlyph(&u8g2, 2, 32+2, 0x0053); 
-    // u8g2_DrawGlyph(&u8g2, 1, 32, 0x25A1);      
-    // u8g2_DrawGlyph(&u8g2, 1, 38, 0x25A1); 
-    // u8g2_SetDrawColor(&u8g2, 1);
-    // u8g2_DrawBox(&u8g2, 0, 38, 8, 8);
-    // u8g2_SetFont(&u8g2, u8g2_font_5x7_mf);
-    // u8g2_SetDrawColor(&u8g2, 0);     
-    // u8g2_DrawStr(&u8g2, 2, 45, "C");
-    // u8g2_SetDrawColor(&u8g2, 1);         
     u8g2_DrawVLine(&u8g2, 9+2, 0, 38); 
     u8g2_SendBuffer(&u8g2);     
 }
@@ -320,9 +248,6 @@ void u8g2_disp_all(void)
     u8g2_SetDrawColor(&u8g2, 1);
     u8g2_DrawHLine(&u8g2, 0+12+2, 17+3, 54);  
     u8g2_DrawVLine(&u8g2, 36+2, 20+3, 48-20);  
-    // u8g2_DrawHLine(&u8g2, 0+10, 20, 64);
-    // u8g2_DrawVLine(&u8g2, 32, 10, 10);
-    // u8g2_DrawVLine(&u8g2, 42, 0, 10);
     u8g2_SetFont(&u8g2, u8g2_font_5x7_mf);
     u8g2_DrawStr(&u8g2, 22+2, 26+3, "S");
     u8g2_DrawStr(&u8g2, 64-15+2, 26+3, "C");
@@ -391,33 +316,6 @@ void u8g2_disp_all(void)
     }
 
     u8g2_DrawStr(&u8g2, turn_x, 8, turn_char_buf); 
-    // if (fabs(mechanical_turns) < 100) {
-    //     if ((int32_t)mechanical_turns >= 0)
-    //         turn_nums = snprintf(turn_char_buf, 50, " %.0f",mechanical_turns);
-    //     else
-    //         turn_nums = snprintf(turn_char_buf, 50, "%.0f",mechanical_turns);
-    //     u8g2_SetFont(&u8g2, u8g2_font_5x8_mf);
-    //     u8g2_DrawStr(&u8g2, 12+3, 13, turn_char_buf);
-    //     u8g2_DrawStr(&u8g2, 12+3+5*turn_nums, 11, ".");
-    //     u8g2_DrawStr(&u8g2, 12+3+5*turn_nums+6, 13, pos_char_buf); 
-    //     u8g2_SetFont(&u8g2, u8g2_font_micro_tr);
-    //     u8g2_DrawCircle(&u8g2, 12+3+5*turn_nums+6+5*pos_nums, 8, 1, U8G2_DRAW_ALL);
-    //     // u8g2_DrawStr(&u8g2, 12+3+5*turn_nums+6+5*pos_nums, 7, "o");        
-    // }
-    // else {
-    //     u8g2_SetFont(&u8g2, u8g2_font_5x8_mf);
-    //     if (mechanical_turns > 0)
-    //         turn_nums = snprintf(turn_char_buf, 50, " oo");
-    //     else
-    //         turn_nums = snprintf(turn_char_buf, 50, "-oo");
-    //     u8g2_DrawStr(&u8g2, 12+3, 12, turn_char_buf);
-    //     u8g2_DrawStr(&u8g2, 12+3+5*turn_nums, 11, ".");
-    //     u8g2_DrawStr(&u8g2, 12+3+5*turn_nums+6, 13, pos_char_buf); 
-    //     u8g2_SetFont(&u8g2, u8g2_font_micro_tr);
-    //     u8g2_DrawCircle(&u8g2, 12+3+5*turn_nums+6+5*pos_nums, 8, 1, U8G2_DRAW_ALL);
-    //     // u8g2_DrawStr(&u8g2, 12+3+5*turn_nums+6+5*pos_nums, 7, "o");         
-    // }
-    // DrawPos(32, 24, 10, percent, eangle_get, 0, 360);
     DrawCurrent(64-14+2, 24+12+3, 12, percent, (int)ph_crrent_lpf, -1200, 1200);
     
     u8g2_SendBuffer(&u8g2);
@@ -486,12 +384,9 @@ void u8g2_disp_char(void)
 
     u8g2_DrawLine(&u8g2, 12+2, 14, 64, 14);
     u8g2_SetFont(&u8g2, u8g2_font_5x7_mf);
-    // u8g2_DrawStr(&u8g2, 0+12+2, 8, "V");
-    // u8g2_DrawStr(&u8g2, 47, 10, "M");
     u8g2_DrawLine(&u8g2, 0+12+2, 29, 64, 29);
     int vol_pos = snprintf(vin_char_buf, 50, "%.1f", vol_lpf/100.0f);
     u8g2_SetDrawColor(&u8g2, 1);
-    // u8g2_SetFont(&u8g2, u8g2_font_6x12_tf);
     u8g2_DrawStr(&u8g2, 0+12+2+2, 7, vin_char_buf);
     u8g2_SetFont(&u8g2, u8g2_font_7x14_tf);
     u8g2_DrawStr(&u8g2, 34, 11, "/");
@@ -850,12 +745,6 @@ void u8g2_disp_update_status(void)
         u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawBox(&u8g2, 0, 0, 9, 10);
         u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_SetFont(&u8g2, u8g2_font_m2icon_5_tf);
-        // u8g2_DrawGlyph(&u8g2, 1, 4, 0x0051); 
-        // u8g2_DrawGlyph(&u8g2, 1, 12, 0x0051); 
-        // u8g2_SetFont(&u8g2, u8g2_font_micro_tr);
-        // u8g2_DrawStr(&u8g2, 0, 9, "*");
-        // u8g2_DrawStr(&u8g2, 5, 9, "*");
         u8g2_SendBuffer(&u8g2);  
     }
     else if (sys_status == SYS_RUNNING) {
@@ -871,24 +760,6 @@ void u8g2_disp_update_status(void)
         case 1:
             u8g2_DrawStr(&u8g2, 5, 9, "*"); 
             break;
-        // case 2:
-        //     u8g2_DrawGlyph(&u8g2, 0, 8, 0x25D1); 
-        //     break;
-        // case 3:
-        //     u8g2_DrawGlyph(&u8g2, 0, 8, 0x25D5); 
-        //     break;
-        // case 4:
-        //     u8g2_DrawGlyph(&u8g2, 0, 8, 0x25CF); 
-        //     break;
-        // case 5:
-        //     u8g2_DrawGlyph(&u8g2, 0, 8, 0x25D5); 
-        //     break;
-        // case 6:
-        //     u8g2_DrawGlyph(&u8g2, 0, 8, 0x25D1); 
-        //     break;
-        // case 7:
-        //     u8g2_DrawGlyph(&u8g2, 0, 8, 0x25D4); 
-        //     break;
         
         default:
             break;
@@ -927,8 +798,6 @@ void u8g2_disp_update_comm(void)
                 u8g2_SetFont(&u8g2, u8g2_font_micro_tr);
                 u8g2_DrawStr(&u8g2, 0, 48-1, "485");
             }
-            // neopixel_set_color(0, rgb_flash_color);
-            // neopixel_set_color(1, rgb_flash_color);
         }
         else {
             if (comm_type == COMM_TYPE_I2C) {
@@ -949,14 +818,9 @@ void u8g2_disp_update_comm(void)
                 u8g2_DrawStr(&u8g2, 0, 48-1, "485");
                 u8g2_SetDrawColor(&u8g2, 1);
             }
-            // neopixel_set_color(0, rgb_color);
-            // neopixel_set_color(1, rgb_color);            
         }
     } 
     else {
-        // u8g2_SetDrawColor(&u8g2, 0);
-        // u8g2_DrawBox(&u8g2, 0, 48-8, 9, 13);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_SetFont(&u8g2, u8g2_font_micro_tr);
         if (comm_type == COMM_TYPE_I2C) {
             u8g2_SetDrawColor(&u8g2, 1);
@@ -976,8 +840,6 @@ void u8g2_disp_update_comm(void)
             u8g2_DrawStr(&u8g2, 0, 48-1, "485");
             u8g2_SetDrawColor(&u8g2, 1);
         }
-        // neopixel_set_color(0, rgb_color);
-        // neopixel_set_color(1, rgb_color);                 
     }   
     // ws2812_show();
 
@@ -1269,11 +1131,8 @@ void u8g2_disp_menu_init(void)
     default:
         break;
     }  
-    // u8g2_DrawStr(&u8g2, 33, 36, " Load"); 
     u8g2_DrawStr(&u8g2, 0, 36, "  I2C ADDR");
     u8g2_DrawStr(&u8g2, 0, 48, "  485 ID");
-    // u8g2_DrawVLine(&u8g2, 17, 0, 48);
-    // u8g2_DrawXBMP(&u8g2, 0, 17, 16, 16, gImage_lun);
     u8g2_SendBuffer(&u8g2); 
     is_menu_flag = 1;
     while (!HAL_GPIO_ReadPin(SYS_SW_GPIO_Port, SYS_SW_Pin));
@@ -1327,11 +1186,8 @@ void u8g2_disp_menu_0_1(void)
     default:
         break;
     }  
-    // u8g2_DrawStr(&u8g2, 33, 36, " Load"); 
     u8g2_DrawStr(&u8g2, 0, 36, "  I2C ADDR");
     u8g2_DrawStr(&u8g2, 0, 48, "  485 ID");
-    // u8g2_DrawVLine(&u8g2, 17, 0, 48);
-    // u8g2_DrawXBMP(&u8g2, 0, 17, 16, 16, gImage_lun);
     u8g2_SendBuffer(&u8g2); 
 
     if (encoder_value_t.encoder_down) {
@@ -1368,11 +1224,8 @@ void u8g2_disp_menu_0_2(void)
     default:
         break;
     }  
-    // u8g2_DrawStr(&u8g2, 33, 36, " Load"); 
     u8g2_DrawStr(&u8g2, 0, 36, "  I2C ADDR");
     u8g2_DrawStr(&u8g2, 0, 48, "  485 ID");
-    // u8g2_DrawVLine(&u8g2, 17, 0, 48);
-    // u8g2_DrawXBMP(&u8g2, 0, 17, 16, 16, gImage_lun);
     u8g2_SendBuffer(&u8g2); 
     if (encoder_value_t.encoder_down) {
         funIndex = table[funIndex].down;
@@ -1409,11 +1262,8 @@ void u8g2_disp_menu_0_3(void)
     default:
         break;
     }  
-    // u8g2_DrawStr(&u8g2, 33, 36, " Load"); 
     u8g2_DrawStr(&u8g2, 0, 36, "> I2C ADDR");
     u8g2_DrawStr(&u8g2, 0, 48, "  485 ID");
-    // u8g2_DrawVLine(&u8g2, 17, 0, 48);
-    // u8g2_DrawXBMP(&u8g2, 0, 17, 16, 16, gImage_lun);
     u8g2_SendBuffer(&u8g2); 
     if (encoder_value_t.encoder_down) {
         funIndex = table[funIndex].down;
@@ -1450,11 +1300,8 @@ void u8g2_disp_menu_0_4(void)
     default:
         break;
     }  
-    // u8g2_DrawStr(&u8g2, 33, 36, " Load"); 
     u8g2_DrawStr(&u8g2, 0, 36, "  I2C ADDR");
     u8g2_DrawStr(&u8g2, 0, 48, "> 485 ID");
-    // u8g2_DrawVLine(&u8g2, 17, 0, 48);
-    // u8g2_DrawXBMP(&u8g2, 0, 17, 16, 16, gImage_lun);
     u8g2_SendBuffer(&u8g2); 
     if (encoder_value_t.encoder_down) {
         funIndex = table[funIndex].down;
@@ -1491,11 +1338,8 @@ void u8g2_disp_menu_0_5(void)
         break;
     }    
     u8g2_DrawStr(&u8g2, 0, 24, "  I2C_ADDR"); 
-    // u8g2_DrawStr(&u8g2, 33, 36, " Load"); 
     u8g2_DrawStr(&u8g2, 0, 36, "  485 ID");
     u8g2_DrawStr(&u8g2, 0, 48, "> POS PID");
-    // u8g2_DrawVLine(&u8g2, 17, 0, 48);
-    // u8g2_DrawXBMP(&u8g2, 0, 17, 16, 16, gImage_lun);
     u8g2_SendBuffer(&u8g2); 
     if (encoder_value_t.encoder_down) {
         funIndex = table[funIndex].down;
@@ -1518,13 +1362,10 @@ void u8g2_disp_menu_0_6(void)
     u8g2_SetFont(&u8g2, u8g2_font_6x10_tf);
   
     u8g2_DrawStr(&u8g2, 0, 12, "  I2C_ADDR"); 
-    // u8g2_DrawStr(&u8g2, 33, 36, " Load"); 
     u8g2_DrawStr(&u8g2, 0, 24, "  485 ID");
     u8g2_DrawStr(&u8g2, 0, 36, "  POS PID");
     u8g2_DrawStr(&u8g2, 0, 48, "> SPEED");
     u8g2_DrawStr(&u8g2, 46, 48, "PID");
-    // u8g2_DrawVLine(&u8g2, 17, 0, 48);
-    // u8g2_DrawXBMP(&u8g2, 0, 17, 16, 16, gImage_lun);
     u8g2_SendBuffer(&u8g2); 
     if (encoder_value_t.encoder_down) {
         funIndex = table[funIndex].down;
@@ -1546,15 +1387,11 @@ void u8g2_disp_menu_0_7(void)
     u8g2_ClearBuffer(&u8g2);
     u8g2_SetFont(&u8g2, u8g2_font_6x10_tf);
   
-    // u8g2_DrawStr(&u8g2, 0, 12, "  I2C_ADDR"); 
-    // u8g2_DrawStr(&u8g2, 33, 36, " Load"); 
     u8g2_DrawStr(&u8g2, 0, 12, "  485 ID");
     u8g2_DrawStr(&u8g2, 0, 24, "  POS PID");
     u8g2_DrawStr(&u8g2, 0, 36, "  SPEED");
     u8g2_DrawStr(&u8g2, 46, 36, "PID");
     u8g2_DrawStr(&u8g2, 0, 48, "> BPS");
-    // u8g2_DrawVLine(&u8g2, 17, 0, 48);
-    // u8g2_DrawXBMP(&u8g2, 0, 17, 16, 16, gImage_lun);
     u8g2_SendBuffer(&u8g2); 
     if (encoder_value_t.encoder_down) {
         funIndex = table[funIndex].down;
@@ -1576,15 +1413,11 @@ void u8g2_disp_menu_0_8(void)
     u8g2_ClearBuffer(&u8g2);
     u8g2_SetFont(&u8g2, u8g2_font_6x10_tf);
   
-    // u8g2_DrawStr(&u8g2, 0, 12, "  I2C_ADDR"); 
-    // u8g2_DrawStr(&u8g2, 33, 36, " Load"); 
     u8g2_DrawStr(&u8g2, 0, 12, "  POS PID");
     u8g2_DrawStr(&u8g2, 0, 24, "  SPEED");
     u8g2_DrawStr(&u8g2, 46, 24, "PID");
     u8g2_DrawStr(&u8g2, 0, 36, "  BPS");
     u8g2_DrawStr(&u8g2, 0, 48, "> RGB%");
-    // u8g2_DrawVLine(&u8g2, 17, 0, 48);
-    // u8g2_DrawXBMP(&u8g2, 0, 17, 16, 16, gImage_lun);
     u8g2_SendBuffer(&u8g2); 
     if (encoder_value_t.encoder_down) {
         funIndex = table[funIndex].down;
@@ -1606,15 +1439,11 @@ void u8g2_disp_menu_0_9(void)
     u8g2_ClearBuffer(&u8g2);
     u8g2_SetFont(&u8g2, u8g2_font_6x10_tf);
   
-    // u8g2_DrawStr(&u8g2, 0, 12, "  I2C_ADDR"); 
-    // u8g2_DrawStr(&u8g2, 33, 36, " Load"); 
     u8g2_DrawStr(&u8g2, 0, 12, "  SPEED");
     u8g2_DrawStr(&u8g2, 46, 12, "PID");
     u8g2_DrawStr(&u8g2, 0, 24, "  BPS");
     u8g2_DrawStr(&u8g2, 0, 36, "  RGB%");
     u8g2_DrawStr(&u8g2, 0, 48, "> RGB");
-    // u8g2_DrawVLine(&u8g2, 17, 0, 48);
-    // u8g2_DrawXBMP(&u8g2, 0, 17, 16, 16, gImage_lun);
     u8g2_SendBuffer(&u8g2); 
     if (encoder_value_t.encoder_down) {
         funIndex = table[funIndex].down;
@@ -1636,14 +1465,10 @@ void u8g2_disp_menu_0_10(void)
     u8g2_ClearBuffer(&u8g2);
     u8g2_SetFont(&u8g2, u8g2_font_6x10_tf);
   
-    // u8g2_DrawStr(&u8g2, 0, 12, "  I2C_ADDR"); 
-    // u8g2_DrawStr(&u8g2, 33, 36, " Load"); 
     u8g2_DrawStr(&u8g2, 0, 12, "  BPS");
     u8g2_DrawStr(&u8g2, 0, 24, "  RGB%");
     u8g2_DrawStr(&u8g2, 0, 36, "  RGB");
     u8g2_DrawStr(&u8g2, 0, 48, "> JAM");
-    // u8g2_DrawVLine(&u8g2, 17, 0, 48);
-    // u8g2_DrawXBMP(&u8g2, 0, 17, 16, 16, gImage_lun);
     u8g2_SendBuffer(&u8g2); 
     if (encoder_value_t.encoder_down) {
         funIndex = table[funIndex].down;
@@ -1665,14 +1490,10 @@ void u8g2_disp_menu_0_11(void)
     u8g2_ClearBuffer(&u8g2);
     u8g2_SetFont(&u8g2, u8g2_font_6x10_tf);
   
-    // u8g2_DrawStr(&u8g2, 0, 12, "  I2C_ADDR"); 
-    // u8g2_DrawStr(&u8g2, 33, 36, " Load"); 
     u8g2_DrawStr(&u8g2, 0, 12, "  RGB%");
     u8g2_DrawStr(&u8g2, 0, 24, "  RGB");
     u8g2_DrawStr(&u8g2, 0, 36, "  JAM");
     u8g2_DrawStr(&u8g2, 0, 48, "> RANGE");
-    // u8g2_DrawVLine(&u8g2, 17, 0, 48);
-    // u8g2_DrawXBMP(&u8g2, 0, 17, 16, 16, gImage_lun);
     u8g2_SendBuffer(&u8g2); 
     if (encoder_value_t.encoder_down) {
         funIndex = table[funIndex].down;
@@ -1718,7 +1539,6 @@ void u8g2_disp_menu_1_1(void)
     u8g2_SetDrawColor(&u8g2, 0);
     u8g2_DrawStr(&u8g2, 17, 12, "<485>"); 
     u8g2_SetDrawColor(&u8g2, 1);
-    // u8g2_DrawHLine(&u8g2, 0, 15, 64);
 
     u8g2_SetFont(&u8g2, u8g2_font_6x10_tf);
     u8g2_DrawStr(&u8g2, 14, 34, dis_buffer);
@@ -1755,7 +1575,6 @@ void u8g2_disp_menu_2_1(void)
     u8g2_SetDrawColor(&u8g2, 0);
     u8g2_DrawStr(&u8g2, 17, 12, "<COM>"); 
     u8g2_SetDrawColor(&u8g2, 1);
-    // u8g2_DrawHLine(&u8g2, 0, 15, 64);
 
     u8g2_SetFont(&u8g2, u8g2_font_6x10_tf);
     switch (comm_type)
@@ -1798,32 +1617,20 @@ void u8g2_disp_menu_2_1(void)
     switch (opt_index)
     {
     case COMM_TYPE_I2C:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 16, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 25, ">");
         u8g2_DrawStr(&u8g2, 10, 25, dis_buffer_line_1);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 10, 35, dis_buffer_line_2); 
         u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
     case COMM_TYPE_485:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 26, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 35, ">");
         u8g2_DrawStr(&u8g2, 10, 35, dis_buffer_line_2);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 10, 25, dis_buffer_line_1); 
         u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
     case COMM_TYPE_485_I2C:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 26, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 45, ">");
         u8g2_DrawStr(&u8g2, 10, 35, dis_buffer_line_2);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 10, 25, dis_buffer_line_1); 
         u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
@@ -1879,7 +1686,6 @@ void u8g2_disp_menu_3_1(void)
     u8g2_SetDrawColor(&u8g2, 0);
     u8g2_DrawStr(&u8g2, 17, 12, "<I2C>"); 
     u8g2_SetDrawColor(&u8g2, 1);
-    // u8g2_DrawHLine(&u8g2, 0, 15, 64);
 
     u8g2_SetFont(&u8g2, u8g2_font_6x10_tf);
     u8g2_DrawStr(&u8g2, 5, 34, dis_buffer); 
@@ -1910,11 +1716,6 @@ void Drawgauge(int x, int y, int r, int p, int v, int minVal, int maxVal)
     else
         v_abs = v;
 
-    // u8g2_ClearBuffer(&u8g2);
-    // u8g2_DrawCircle(&u8g2, x, y, r, U8G2_DRAW_UPPER_LEFT|U8G2_DRAW_UPPER_RIGHT);
-    // u8g2_DrawCircle(&u8g2, x, y, radius2, U8G2_DRAW_UPPER_LEFT|U8G2_DRAW_UPPER_RIGHT);
-    // u8g2_DrawLine(&u8g2, x-r, y, x-radius2, y);
-    // u8g2_DrawLine(&u8g2, x+r, y, x+radius2, y);
     u8g2_SetDrawColor(&u8g2, 1);
     u8g2_SetFont(&u8g2, u8g2_font_4x6_mf);
     snprintf(speed_char_buf, 50, "%d", v);
@@ -1938,12 +1739,6 @@ void Drawgauge(int x, int y, int r, int p, int v, int minVal, int maxVal)
             u8g2_DrawBox(&u8g2, a, 33-(25-a), 1, (25-a)*2);                
         }           
     }
-
-    
-    // u8g2_SetDrawColor(&u8g2, 0);
-    // u8g2_DrawFilledEllipse(&u8g2, x, y, 9, 9, U8G2_DRAW_UPPER_RIGHT | U8G2_DRAW_UPPER_LEFT);
-    // u8g2_SetDrawColor(&u8g2, 1);
-    // u8g2_SendBuffer(&u8g2);
 }
 
 void u8g2_disp_menu_4_1(void)
@@ -1966,7 +1761,6 @@ void u8g2_disp_menu_4_1(void)
     u8g2_SetDrawColor(&u8g2, 0);
     u8g2_DrawStr(&u8g2, 5, 12, "<POS PID>"); 
     u8g2_SetDrawColor(&u8g2, 1);
-    // u8g2_DrawHLine(&u8g2, 0, 15, 64);
 
     u8g2_SetFont(&u8g2, u8g2_font_5x8_tf);
     switch (pos_pid_index)
@@ -2018,42 +1812,26 @@ void u8g2_disp_menu_4_1(void)
     switch (opt_index)
     {
     case 0:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 16, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 25, ">");
         u8g2_DrawStr(&u8g2, 10, 25, dis_buffer_line_1);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 10, 35, dis_buffer_line_2); 
         u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
     case 1:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 26, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 35, ">");
         u8g2_DrawStr(&u8g2, 10, 35, dis_buffer_line_2);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 10, 25, dis_buffer_line_1); 
         u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
     case 2:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 36, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 45, ">");
         u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 10, 25, dis_buffer_line_1); 
         u8g2_DrawStr(&u8g2, 10, 35, dis_buffer_line_2);         
         break;
     case 3:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 36, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 45, ">");
         u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_4);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 10, 25, dis_buffer_line_2); 
         u8g2_DrawStr(&u8g2, 10, 35, dis_buffer_line_3);         
         break;
@@ -2061,11 +1839,6 @@ void u8g2_disp_menu_4_1(void)
     default:
         break;
     }
-     
-   
-
-
-     
     u8g2_SendBuffer(&u8g2); 
 
     if (my_button.was_click) {
@@ -2100,7 +1873,6 @@ void u8g2_disp_menu_5_1(void)
     u8g2_SetDrawColor(&u8g2, 0);
     u8g2_DrawStr(&u8g2, 0, 12, "<SPEED PID>"); 
     u8g2_SetDrawColor(&u8g2, 1);
-    // u8g2_DrawHLine(&u8g2, 0, 15, 64);
 
     u8g2_SetFont(&u8g2, u8g2_font_5x8_tf);
     switch (speed_pid_index)
@@ -2152,42 +1924,26 @@ void u8g2_disp_menu_5_1(void)
     switch (opt_index)
     {
     case 0:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 16, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 25, ">");
         u8g2_DrawStr(&u8g2, 10, 25, dis_buffer_line_1);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 10, 35, dis_buffer_line_2); 
         u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
     case 1:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 26, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 35, ">");
         u8g2_DrawStr(&u8g2, 10, 35, dis_buffer_line_2);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 10, 25, dis_buffer_line_1); 
         u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
     case 2:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 36, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 45, ">");
         u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 10, 25, dis_buffer_line_1); 
         u8g2_DrawStr(&u8g2, 10, 35, dis_buffer_line_2);         
         break;
     case 3:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 36, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 45, ">");
         u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_4);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 10, 25, dis_buffer_line_2); 
         u8g2_DrawStr(&u8g2, 10, 35, dis_buffer_line_3);         
         break;
@@ -2195,10 +1951,6 @@ void u8g2_disp_menu_5_1(void)
     default:
         break;
     }
-     
-   
-
-
      
     u8g2_SendBuffer(&u8g2); 
 
@@ -2234,7 +1986,6 @@ void u8g2_disp_menu_6_1(void)
     u8g2_SetDrawColor(&u8g2, 0);
     u8g2_DrawStr(&u8g2, 17, 12, "<BPS>"); 
     u8g2_SetDrawColor(&u8g2, 1);
-    // u8g2_DrawHLine(&u8g2, 0, 15, 64);
 
     u8g2_SetFont(&u8g2, u8g2_font_6x10_tf);
     switch (bps_index)
@@ -2277,32 +2028,20 @@ void u8g2_disp_menu_6_1(void)
     switch (opt_index)
     {
     case 0:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 16, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 25, ">");
         u8g2_DrawStr(&u8g2, 10, 25, dis_buffer_line_1);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 10, 35, dis_buffer_line_2); 
         u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
     case 1:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 26, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 35, ">");
         u8g2_DrawStr(&u8g2, 10, 35, dis_buffer_line_2);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 10, 25, dis_buffer_line_1); 
         u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
     case 2:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 36, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 45, ">");
         u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 10, 25, dis_buffer_line_1); 
         u8g2_DrawStr(&u8g2, 10, 35, dis_buffer_line_2);         
         break;
@@ -2310,10 +2049,6 @@ void u8g2_disp_menu_6_1(void)
     default:
         break;
     }
-     
-   
-
-
      
     u8g2_SendBuffer(&u8g2); 
 
@@ -2400,7 +2135,6 @@ void u8g2_disp_menu_8_1(void)
     u8g2_SetDrawColor(&u8g2, 0);
     u8g2_DrawStr(&u8g2, 17, 12, "<RGB>"); 
     u8g2_SetDrawColor(&u8g2, 1);
-    // u8g2_DrawHLine(&u8g2, 0, 15, 64);
 
     u8g2_SetFont(&u8g2, u8g2_font_5x8_tf);
     switch (rgb_show_mode)
@@ -2436,33 +2170,19 @@ void u8g2_disp_menu_8_1(void)
     switch (opt_index)
     {
     case 0:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 16, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 25, ">");
         u8g2_DrawStr(&u8g2, 5, 25, dis_buffer_line_1);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 5, 35, dis_buffer_line_2); 
-        // u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
     case 1:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 26, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 35, ">");
         u8g2_DrawStr(&u8g2, 5, 35, dis_buffer_line_2);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 5, 25, dis_buffer_line_1); 
-        // u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
     
     default:
         break;
     }
-     
-   
-
-
      
     u8g2_SendBuffer(&u8g2); 
 
@@ -2498,7 +2218,6 @@ void u8g2_disp_menu_9_1(void)
     u8g2_SetDrawColor(&u8g2, 0);
     u8g2_DrawStr(&u8g2, 17, 12, "<JAM>"); 
     u8g2_SetDrawColor(&u8g2, 1);
-    // u8g2_DrawHLine(&u8g2, 0, 15, 64);
 
     u8g2_SetFont(&u8g2, u8g2_font_5x8_tf);
     switch (motor_stall_protection_flag)
@@ -2534,33 +2253,19 @@ void u8g2_disp_menu_9_1(void)
     switch (opt_index)
     {
     case 0:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 16, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 25, ">");
         u8g2_DrawStr(&u8g2, 5, 25, dis_buffer_line_1);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 5, 35, dis_buffer_line_2); 
-        // u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
     case 1:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 26, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 35, ">");
         u8g2_DrawStr(&u8g2, 5, 35, dis_buffer_line_2);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 5, 25, dis_buffer_line_1); 
-        // u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
     
     default:
         break;
     }
-     
-   
-
-
      
     u8g2_SendBuffer(&u8g2); 
 
@@ -2596,7 +2301,6 @@ void u8g2_disp_menu_10_1(void)
     u8g2_SetDrawColor(&u8g2, 0);
     u8g2_DrawStr(&u8g2, 11, 12, "<RANGE>"); 
     u8g2_SetDrawColor(&u8g2, 1);
-    // u8g2_DrawHLine(&u8g2, 0, 15, 64);
 
     u8g2_SetFont(&u8g2, u8g2_font_5x8_tf);
     switch (motor_overvalue_protection_flag)
@@ -2632,33 +2336,19 @@ void u8g2_disp_menu_10_1(void)
     switch (opt_index)
     {
     case 0:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 16, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 25, ">");
         u8g2_DrawStr(&u8g2, 5, 25, dis_buffer_line_1);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 5, 35, dis_buffer_line_2); 
-        // u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
     case 1:
-        // u8g2_SetDrawColor(&u8g2, 1);
-        // u8g2_DrawBox(&u8g2, 0, 26, 64, 10);
-        // u8g2_SetDrawColor(&u8g2, 0);
         u8g2_DrawStr(&u8g2, 0, 35, ">");
         u8g2_DrawStr(&u8g2, 5, 35, dis_buffer_line_2);
-        // u8g2_SetDrawColor(&u8g2, 1);
         u8g2_DrawStr(&u8g2, 5, 25, dis_buffer_line_1); 
-        // u8g2_DrawStr(&u8g2, 10, 45, dis_buffer_line_3);         
         break;
     
     default:
         break;
     }
-     
-   
-
-
      
     u8g2_SendBuffer(&u8g2); 
 
@@ -2685,11 +2375,7 @@ void DrawPos(int x, int y, int r, int p, int v, int minVal, int maxVal)
     else
         dis_v = v;
 
-    // u8g2_ClearBuffer(&u8g2);
     u8g2_DrawCircle(&u8g2, x, y, r, U8G2_DRAW_ALL);
-    // u8g2_DrawCircle(&u8g2, x, y, radius2, U8G2_DRAW_ALL);
-    // u8g2_DrawLine(&u8g2, cx-r, cy, cx-radius2, cy);
-    // u8g2_DrawLine(&u8g2, cx+r, cy, cx+radius2, cy);
     u8g2_SetDrawColor(&u8g2, 1);
     u8g2_SetFont(&u8g2, u8g2_font_4x6_tf);
     snprintf(speed_char_buf, 50, "%d", v);
@@ -2710,7 +2396,6 @@ void DrawPos(int x, int y, int r, int p, int v, int minVal, int maxVal)
     u8g2_DrawLine(&u8g2,x-1,y-1,xp,yp);
     u8g2_DrawLine(&u8g2,x-1,y,xp,yp);
     u8g2_DrawLine(&u8g2,x+1,y,xp,yp);
-    // u8g2_SendBuffer(&u8g2);
 }
 
 void DrawCurrent(int x, int y, int r, int p, int v, int minVal, int maxVal) 
@@ -2718,11 +2403,6 @@ void DrawCurrent(int x, int y, int r, int p, int v, int minVal, int maxVal)
     char current_char_buf[50] = {0};
     uint8_t dis_char_pos = 0;
 
-    // u8g2_ClearBuffer(&u8g2);
-    // u8g2_DrawCircle(&u8g2, x, y, r, U8G2_DRAW_UPPER_LEFT|U8G2_DRAW_UPPER_RIGHT);
-    // u8g2_DrawCircle(&u8g2, x, y, radius2, U8G2_DRAW_UPPER_LEFT|U8G2_DRAW_UPPER_RIGHT);
-    // u8g2_DrawLine(&u8g2, x-r, y, x-radius2, y);
-    // u8g2_DrawLine(&u8g2, x+r, y, x+radius2, y);
     u8g2_SetDrawColor(&u8g2, 1);
     u8g2_SetFont(&u8g2, u8g2_font_4x6_mf);
     if (v >= 10000)
@@ -2771,32 +2451,4 @@ void DrawCurrent(int x, int y, int r, int p, int v, int minVal, int maxVal)
             u8g2_DrawBox(&u8g2, a, 33-(51-a), 1, (51-a)*2);                
         }           
     }    
-    // if (val > 90) {
-    //     for (int a = 90; a < val; a+=5) {
-    //         float val_f = (float)a*3.14f/180.0f -1.572f;
-    //         int xp = x+(sinf(val_f) * radius);
-    //         int yp = y-(cosf(val_f) * radius);
-    //         u8g2_DrawLine(&u8g2,x,y,xp,yp);
-    //         u8g2_DrawLine(&u8g2,x-1,y,xp,yp);
-    //         u8g2_DrawLine(&u8g2,x-2,y,xp,yp);
-    //         u8g2_DrawLine(&u8g2,x+1,y,xp,yp);
-    //         u8g2_DrawLine(&u8g2,x+2,y,xp,yp);
-    //     }
-    // }
-    // else if (val < 90) {
-    //     for (int a = 90; a > val; a-=5) {
-    //         float val_f = (float)a*3.14f/180.0f -1.572f;
-    //         int xp = x+(sinf(val_f) * radius);
-    //         int yp = y-(cosf(val_f) * radius);
-    //         u8g2_DrawLine(&u8g2,x,y,xp,yp);
-    //         u8g2_DrawLine(&u8g2,x-1,y,xp,yp);
-    //         u8g2_DrawLine(&u8g2,x-2,y,xp,yp);
-    //         u8g2_DrawLine(&u8g2,x+1,y,xp,yp);
-    //         u8g2_DrawLine(&u8g2,x+2,y,xp,yp);
-    //     }
-    // }
-    // u8g2_SetDrawColor(&u8g2, 0);
-    // u8g2_DrawFilledEllipse(&u8g2, x, y, 9, 9, U8G2_DRAW_UPPER_RIGHT | U8G2_DRAW_UPPER_LEFT);          
-    // u8g2_SetDrawColor(&u8g2, 1);
-    // u8g2_SendBuffer(&u8g2);
 }
