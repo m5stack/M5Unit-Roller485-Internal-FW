@@ -21,4 +21,10 @@ This project references the following open source projects.
 
 ## License
 
-- [M5Unit-Roller485-MIT](LICENSE)
+- [smartknob][] Copyright (c) 2022 Scott Bezek and licensed under Apache License, Version 2.0 License.
+- [PID_Controller][] Copyright (c) 2013-2014 tcleg and licensed under GPLv3 License.
+- [u8g2][] Copyright (c) 2016 olikraus and licensed under BSD License.
+
+[smartknob]: https://github.com/scottbez1/smartknob
+[PID_Controller]: https://github.com/tcleg/PID_Controller
+[u8g2]: https://github.com/olikraus/u8g2
