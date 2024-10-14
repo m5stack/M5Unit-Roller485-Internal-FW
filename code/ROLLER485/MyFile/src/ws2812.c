@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : encoder.c
+  * File Name          : ws2812.c
   * Description        : This file provides code for the configuration
-  *                      of all used GPIO pins.
+  *                      of ws2812.
   ******************************************************************************
   * @attention
   *

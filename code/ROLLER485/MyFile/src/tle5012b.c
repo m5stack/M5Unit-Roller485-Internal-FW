@@ -1,4 +1,8 @@
-
+/*
+ * SPDX-FileCopyrightText: 2024 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
+ */
 #include "arm_math.h"
 #include "arm_const_structs.h"
 

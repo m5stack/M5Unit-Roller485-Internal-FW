@@ -1,4 +1,9 @@
 
+/*
+ * SPDX-FileCopyrightText: 2024 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
+ */
 #include "motordriver.h"
 #include "tim.h"
 

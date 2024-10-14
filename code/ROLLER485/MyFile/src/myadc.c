@@ -1,4 +1,9 @@
 
+/*
+ * SPDX-FileCopyrightText: 2024 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
+ */
 #include "myadc.h"
 #include "adc.h"
 #include "stm32g4xx_hal_adc_ex.h"

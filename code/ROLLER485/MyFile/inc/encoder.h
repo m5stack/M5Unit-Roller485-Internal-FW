@@ -1,5 +1,10 @@
-#ifndef __ENCODER_H_
-#define __ENCODER_H_
+/*
+ * SPDX-FileCopyrightText: 2024 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
+ */
+#ifndef __ENCODER_H__
+#define __ENCODER_H__
 
 #include "tle5012b.h"
 

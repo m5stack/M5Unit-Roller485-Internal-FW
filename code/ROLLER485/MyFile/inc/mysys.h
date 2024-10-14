@@ -1,5 +1,10 @@
-#ifndef __MYSYS_H
-#define __MYSYS_H
+/*
+ * SPDX-FileCopyrightText: 2024 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
+ */
+#ifndef __MYSYS_H__
+#define __MYSYS_H__
 #include "stm32g4xx.h"
 #include "pid_controller.h"
 

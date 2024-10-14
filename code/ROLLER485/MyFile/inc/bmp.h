@@ -1,5 +1,10 @@
-#ifndef __BMP_H
-#define __BMP_H
+/*
+ * SPDX-FileCopyrightText: 2024 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
+ */
+#ifndef __BMP_H__
+#define __BMP_H__
 unsigned char BMP1[] =
 {
 

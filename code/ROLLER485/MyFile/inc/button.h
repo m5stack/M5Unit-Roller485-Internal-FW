@@ -1,5 +1,10 @@
-#ifndef __GPIO_H_
-#define __GPIO_H_
+/*
+ * SPDX-FileCopyrightText: 2024 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
+ */
+#ifndef __GPIO_H__
+#define __GPIO_H__
 
 #include "main.h"
 #include "gpio.h"

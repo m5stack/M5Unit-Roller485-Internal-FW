@@ -1,4 +1,9 @@
 
+/*
+ * SPDX-FileCopyrightText: 2024 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
+ */
 #include "mysys.h"
 #include "motordriver.h"
 #include "myadc.h"

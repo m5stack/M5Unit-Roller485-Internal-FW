@@ -1,5 +1,10 @@
-#ifndef __TLE5012B_H
-#define __TLE5012B_H
+/*
+ * SPDX-FileCopyrightText: 2024 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
+ */
+#ifndef __TLE5012B_H__
+#define __TLE5012B_H__
 #include "stm32g4xx.h"
 #include "arm_const_structs.h"
 

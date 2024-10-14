@@ -1,5 +1,10 @@
-#ifndef __MYADC_H
-#define __MYADC_H
+/*
+ * SPDX-FileCopyrightText: 2024 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
+ */
+#ifndef __MYADC_H__
+#define __MYADC_H__
 #include "stm32g4xx.h"
 #include "arm_const_structs.h"
 

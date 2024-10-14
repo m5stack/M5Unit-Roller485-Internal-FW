@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * File Name          : gpio.h
-  * Description        : This file contains all the functions prototypes for 
-  *                      the gpio  
+  * File Name          : ws2812.h
+  * Description        : This file provides code for the configuration
+  *                      of ws2812.
   ******************************************************************************
   * @attention
   *

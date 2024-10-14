@@ -1,3 +1,8 @@
+/*
+ * SPDX-FileCopyrightText: 2024 M5Stack Technology CO LTD
+ *
+ * SPDX-License-Identifier: MIT
+ */
 #include "button.h"
 
 uint8_t button_enable_flag = 1;
