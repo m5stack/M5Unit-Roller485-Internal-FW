@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Roller485 Detent Tuner</title>
+<style>
+  :root {
+    --bg: #0f1115; --panel: #171a21; --panel2: #1f232c; --line: #2a2f3a;
+    --fg: #e6e8ee; --muted: #8b93a5; --accent: #4fc3f7; --warn: #ffb74d;
+    --ok: #81c784; --err: #ef5350; --torque: #ff7043; --sub: #ab47bc; --ang: #4fc3f7;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; background: var(--bg); color: var(--fg);
+    font: 14px/1.4 ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  header { display: flex; align-items: center; gap: 12px; padding: 10px 16px;
+    border-bottom: 1px solid var(--line); background: var(--panel); flex-wrap: wrap; }
+  header h1 { font-size: 16px; margin: 0 8px 0 0; font-weight: 600; letter-spacing: .02em; }
+  header .spacer { flex: 1; }
+  .pill { padding: 3px 10px; border-radius: 999px; font-size: 12px; background: var(--panel2);
+    color: var(--muted); border: 1px solid var(--line); }
+  .pill.on { color: var(--ok); border-color: var(--ok); }
+  .pill.err { color: var(--err); border-color: var(--err); }
+  button, select, input[type=number], input[type=text] {
+    background: var(--panel2); color: var(--fg); border: 1px solid var(--line);
+    border-radius: 6px; padding: 6px 10px; font: inherit; }
+  button { cursor: pointer; }
+  button:hover { border-color: var(--accent); }
+  button.primary { background: var(--accent); color: #000; border-color: var(--accent); font-weight: 600; }
+  button.danger { border-color: var(--err); color: var(--err); }
+  button:disabled { opacity: .4; cursor: default; }
+  main { display: grid; grid-template-columns: minmax(340px, 420px) 1fr; gap: 14px; padding: 14px; }
+  @media (max-width: 900px) { main { grid-template-columns: 1fr; } }
+  section { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  section h2 { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--muted);
+    margin: 0 0 10px; display: flex; align-items: center; gap: 8px; }
+  section h2 .spacer { flex: 1; }
+  section h2 button { padding: 3px 8px; font-size: 12px; }
+  .col { display: flex; flex-direction: column; gap: 14px; }
+  .param { display: grid; grid-template-columns: 1fr 84px; gap: 4px 8px; align-items: center;
+    padding: 6px 0; border-bottom: 1px solid var(--line); }
+  .param:last-child { border-bottom: 0; }
+  .param label { font-size: 13px; grid-column: 1; }
+  .param label small { color: var(--muted); display: block; font-size: 11px; }
+  .param input[type=range] { grid-column: 1; width: 100%; accent-color: var(--accent); }
+  .param input[type=number] { grid-column: 2; grid-row: 1 / span 2; width: 84px; text-align: right; padding: 4px 6px; }
+  .param.dirty input[type=number] { border-color: var(--warn); }
+  .param.group { border-bottom: 0; padding: 10px 0 2px; color: var(--muted); font-size: 11px;
+    text-transform: uppercase; letter-spacing: .08em; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .presets button { min-width: 92px; }
+  .presets button .sw { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; }
+  .stat { background: var(--panel2); border-radius: 8px; padding: 8px 10px; }
+  .stat .v { font-size: 20px; font-variant-numeric: tabular-nums; font-weight: 600; }
+  .stat .k { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+  canvas { width: 100%; display: block; background: var(--panel2); border-radius: 8px; }
+  #knob { aspect-ratio: 1; max-width: 220px; }
+  .viz { display: grid; grid-template-columns: 220px 1fr; gap: 12px; align-items: start; }
+  @media (max-width: 1100px) { .viz { grid-template-columns: 1fr; } #knob { max-width: 180px; } }
+  .legend { display: flex; gap: 14px; font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .legend i { display: inline-block; width: 10px; height: 3px; margin-right: 5px; vertical-align: middle; }
+  #log { font: 12px ui-monospace, SFMono-Regular, Menlo, monospace; height: 140px; overflow: auto;
+    background: var(--panel2); border-radius: 8px; padding: 8px; white-space: pre-wrap; color: var(--muted); }
+  #log .tx { color: var(--accent); } #log .rx { color: var(--ok); } #log .er { color: var(--err); }
+  textarea { width: 100%; min-height: 70px; background: var(--panel2); color: var(--fg); border: 1px solid var(--line);
+    border-radius: 6px; font: 12px ui-monospace, Menlo, monospace; padding: 8px; }
+  .hint { color: var(--muted); font-size: 12px; }
+  .hint code { background: var(--panel2); padding: 1px 5px; border-radius: 4px; }
+  .notice { background: #2b2410; border: 1px solid #5a4a1a; color: var(--warn); padding: 10px 12px; border-radius: 8px; margin: 14px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Roller485 Detent Tuner</h1>
+  <span id="status" class="pill">disconnected</span>
+  <span id="fw" class="pill" hidden></span>
+  <span class="spacer"></span>
+  <label class="hint">baud <select id="baud"><option>115200</option><option>19200</option><option>9600</option></select></label>
+  <label class="hint">motor id <input id="mid" type="number" min="0" max="255" value="0" style="width:64px"></label>
+  <button id="connect" class="primary">Connect</button>
+</header>
+
+<div id="nosupport" class="notice" hidden>
+  This browser has no Web Serial API. Use Chrome / Edge (desktop), served from <code>http://localhost</code>, <code>file://</code> or https.
+</div>
+
+<main>
+  <div class="col">
+    <section>
+      <h2>Motor <span class="spacer"></span>
+        <button id="readAll" disabled>Read all</button>
+        <button id="zero" disabled>Zero position</button>
+      </h2>
+      <div class="row">
+        <button id="motorOn" disabled>Motor ON</button>
+        <button id="motorOff" class="danger" disabled>Motor OFF</button>
+        <span class="hint">OFF releases the driver entirely; ON re-seeds the detent center.</span>
+      </div>
+      <h2 style="margin-top:12px">Presets (same as button click)</h2>
+      <div class="row presets" id="presets"></div>
+    </section>
+
+    <section>
+      <h2>Parameters <span class="spacer"></span>
+        <span class="hint" id="dirtyHint"></span>
+      </h2>
+      <div id="params"></div>
+    </section>
+
+    <section>
+      <h2>Profiles <span class="spacer"></span>
+        <button id="profSave" disabled>Save current as…</button>
+        <button id="profExport">Export JSON</button>
+        <button id="profImport">Import JSON</button>
+      </h2>
+      <div class="row" id="profiles"><span class="hint">No saved profiles yet.</span></div>
+      <h2 style="margin-top:12px">C preset line (paste into <code>demo_presets[]</code>)</h2>
+      <textarea id="cline" readonly></textarea>
+      <p class="hint">Values are applied live to RAM only — they reset on power cycle. Save a profile here, or bake the C line into the firmware.</p>
+    </section>
+  </div>
+
+  <div class="col">
+    <section>
+      <h2>Live <span class="spacer"></span>
+        <label class="hint"><input type="checkbox" id="poll" checked disabled> poll</label>
+        <label class="hint">window <select id="win"><option value="5">5 s</option><option value="10" selected>10 s</option><option value="20">20 s</option></select></label>
+      </h2>
+      <div class="stats">
+        <div class="stat"><div class="v" id="sPos">–</div><div class="k">position</div></div>
+        <div class="stat"><div class="v" id="sSub">–</div><div class="k">sub-pos</div></div>
+        <div class="stat"><div class="v" id="sAng">–</div><div class="k">angle °</div></div>
+        <div class="stat"><div class="v" id="sTq">–</div><div class="k">torque</div></div>
+        <div class="stat"><div class="v" id="sCur">–</div><div class="k">phase mA</div></div>
+        <div class="stat"><div class="v" id="sRps">–</div><div class="k">rad/s</div></div>
+        <div class="stat"><div class="v" id="sHz">–</div><div class="k">poll Hz</div></div>
+      </div>
+      <div class="viz" style="margin-top:12px">
+        <canvas id="knob" width="440" height="440"></canvas>
+        <div>
+          <canvas id="chart" width="900" height="300"></canvas>
+          <div class="legend">
+            <span><i style="background:var(--torque)"></i>torque (±limit)</span>
+            <span><i style="background:var(--sub)"></i>sub-position (±1)</span>
+            <span><i style="background:var(--ang)"></i>rad/s (±cutoff)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <h2>Tuning guide</h2>
+      <div class="hint" style="line-height:1.6">
+        <b>Mushy / weak click</b> → raise <b>P gain</b> and <b>torque limit</b>; lower <b>dead zone %</b> so the spring engages earlier.<br>
+        <b>Draggy between detents</b> → lower <b>D gain</b>, raise <b>dead zone %</b>, raise <b>coast threshold</b> (coasts more).<br>
+        <b>Buzz / oscillation at center</b> → lower <b>P</b>, add a little <b>D</b> (0.5–3), or raise <b>dead zone %</b>.<br>
+        <b>Double-clicks / chatter at the boundary</b> → raise <b>snap point</b> toward 0.6–0.8 (more hysteresis).<br>
+        <b>Runs away when spun</b> → lower <b>velocity cutoff</b>; if it runs away slowly, the torque sign is wrong (firmware).<br>
+        <b>Drifts off center at rest</b> → lower <b>idle rate alpha</b> or raise <b>idle delay</b>.
+      </div>
+    </section>
+
+    <section>
+      <h2>Log <span class="spacer"></span><button id="clearLog">Clear</button></h2>
+      <div id="log"></div>
+    </section>
+  </div>
+</main>
+
+<script>
+'use strict';
+// ---------- Parameter table (must match detent_param_t in smart_knob.h) ----------
+const PARAMS = [
+  { g: 'Detent spring' },
+  { i: 0,  key: 'p_gain',        name: 'P gain',          hint: 'torque per rad of error',              min: 0,    max: 12000, step: 50,    c: true },
+  { i: 2,  key: 'd_gain',        name: 'D gain',          hint: 'velocity damping (draggy if high)',    min: 0,    max: 30,    step: 0.1 },
+  { i: 1,  key: 'i_gain',        name: 'I gain',          hint: 'normally 0',                           min: 0,    max: 2000,  step: 10 },
+  { i: 3,  key: 'torque_limit',  name: 'Torque limit',    hint: 'max detent / endstop torque',          min: 0,    max: 1200,  step: 10,    c: true },
+  { i: 4,  key: 'output_ramp',   name: 'Output ramp',     hint: 'torque slew limit /s',                 min: 0,    max: 200000, step: 1000 },
+  { g: 'Detent shape' },
+  { i: 5,  key: 'dead_zone',     name: 'Dead zone %',     hint: 'free fraction of each detent',         min: 0,    max: 0.5,   step: 0.01,  c: true },
+  { i: 6,  key: 'dead_zone_deg', name: 'Dead zone cap °', hint: 'absolute cap on the dead zone',        min: 0,    max: 90,    step: 1 },
+  { i: 7,  key: 'snap_point',    name: 'Snap point',      hint: 'hysteresis: 0.5 = mid, >0.5 = later',  min: 0.1,  max: 1.5,   step: 0.01 },
+  { i: 8,  key: 'snap_bias',     name: 'Snap bias',       hint: 'asymmetric detents, normally 0',       min: -0.5, max: 0.5,   step: 0.01 },
+  { i: 11, key: 'coast_thr',     name: 'Coast threshold', hint: '|torque| below which the driver coasts', min: 0,  max: 400,   step: 5 },
+  { g: 'Layout' },
+  { i: 9,  key: 'detents',       name: 'Detents / rev',   hint: 'spacing (re-seeds center)',            min: 1,    max: 256,   step: 1,     c: true },
+  { i: 10, key: 'positions',     name: 'Positions',       hint: '0 = continuous, N = bounded',          min: 0,    max: 64,    step: 1,     c: true },
+  { g: 'Safety & idle' },
+  { i: 12, key: 'vel_cutoff',    name: 'Velocity cutoff', hint: 'rad/s above which torque is dropped',  min: 0.5,  max: 60,    step: 0.5 },
+  { i: 13, key: 'idle_vel',      name: 'Idle velocity',   hint: 'rad/s threshold for "at rest"',        min: 0,    max: 2,     step: 0.01 },
+  { i: 14, key: 'idle_delay',    name: 'Idle delay ms',   hint: 'rest time before center correction',   min: 0,    max: 5000,  step: 50 },
+  { i: 15, key: 'idle_angle',    name: 'Idle max angle °',hint: 'only correct within this angle',       min: 0,    max: 45,    step: 0.5 },
+  { i: 16, key: 'idle_alpha',    name: 'Idle rate alpha', hint: 'center correction rate',               min: 0,    max: 0.05,  step: 0.0001 },
+];
+const PRESET_COLORS = ['#00FFFF', '#00FF00', '#3a6bff', '#FF00FF', '#FFFF00', '#FF0000'];
+const PRESET_NAMES  = ['36 tuned', '12 detents', '4 coarse', '12 bounded', 'on / off', 'free spin'];
+
+// ---------- Protocol ----------
+function crc8(bytes, len) {
+  let crc = 0;
+  for (let j = 0; j < len; j++) {
+    crc ^= bytes[j];
+    for (let i = 0; i < 8; i++) crc = (crc & 1) ? ((crc >> 1) ^ 0x8c) : (crc >> 1);
+  }
+  return crc & 0xff;
+}
+const f32 = (v) => { const b = new Uint8Array(4); new DataView(b.buffer).setFloat32(0, v, true); return b; };
+const i32 = (v) => { const b = new Uint8Array(4); new DataView(b.buffer).setInt32(0, v, true); return b; };
+const rdF = (b, o) => new DataView(b.buffer, b.byteOffset).getFloat32(o, true);
+const rdI = (b, o) => new DataView(b.buffer, b.byteOffset).getInt32(o, true);
+
+function frame(cmd, payload = []) {
+  const f = new Uint8Array(15);
+  f[0] = cmd; f[1] = +$('mid').value & 0xff;
+  f.set(payload.slice(0, 12), 2);
+  f[14] = crc8(f, 14);
+  return f;
+}
+
+// ---------- Serial ----------
+const $ = (id) => document.getElementById(id);
+let port = null, reader = null, writer = null, rxbuf = new Uint8Array(0);
+let pending = null;   // { code, resolve, reject, timer }
+const queue = [];
+
+function log(cls, msg) {
+  const el = $('log'); const s = document.createElement('span');
+  s.className = cls; s.textContent = msg + '\n'; el.appendChild(s);
+  while (el.childElementCount > 300) el.removeChild(el.firstChild);
+  el.scrollTop = el.scrollHeight;
+}
+const hex = (b) => Array.from(b, x => x.toString(16).padStart(2, '0')).join(' ');
+
+async function connect() {
+  if (port) { await disconnect(); return; }
+  try {
+    port = await navigator.serial.requestPort();
+    await port.open({ baudRate: +$('baud').value });
+    writer = port.writable.getWriter();
+    setStatus('connected', 'on');
+    $('connect').textContent = 'Disconnect';
+    setConnectedUI(true);
+    readLoop();
+    await readAll();
+    pollLoop();
+  } catch (e) { log('er', 'connect: ' + e.message); setStatus('error', 'err'); port = null; }
+}
+async function disconnect() {
+  try { reader && await reader.cancel(); } catch {}
+  try { writer && writer.releaseLock(); } catch {}
+  try { port && await port.close(); } catch {}
+  port = reader = writer = null;
+  setStatus('disconnected', '');
+  $('connect').textContent = 'Connect';
+  setConnectedUI(false);
+}
+function setStatus(t, cls) { const s = $('status'); s.textContent = t; s.className = 'pill ' + cls; }
+
+async function readLoop() {
+  while (port && port.readable) {
+    reader = port.readable.getReader();
+    try {
+      for (;;) {
+        const { value, done } = await reader.read();
+        if (done) break;
+        const nb = new Uint8Array(rxbuf.length + value.length); nb.set(rxbuf); nb.set(value, rxbuf.length); rxbuf = nb;
+        parseRx();
+      }
+    } catch (e) { log('er', 'read: ' + e.message); }
+    finally { try { reader.releaseLock(); } catch {} }
+    if (!port) break;
+  }
+  if (port) { log('er', 'port closed'); await disconnect(); }
+}
+function parseRx() {
+  for (;;) {
+    let i = 0;
+    while (i + 1 < rxbuf.length && !(rxbuf[i] === 0xAA && rxbuf[i + 1] === 0x55)) i++;
+    if (i > 0) rxbuf = rxbuf.slice(i);
+    if (rxbuf.length < 17) return;
+    if (crc8(rxbuf.subarray(2), 14) === rxbuf[16]) {
+      const fr = rxbuf.slice(0, 17); rxbuf = rxbuf.slice(17);
+      onFrame(fr);
+    } else if (rxbuf.length >= 20 && crc8(rxbuf.subarray(2), 17) === rxbuf[19]) {
+      const fr = rxbuf.slice(0, 20); rxbuf = rxbuf.slice(20);
+      onFrame(fr);
+    } else { rxbuf = rxbuf.slice(2); }
+  }
+}
+function onFrame(fr) {
+  if (pending && fr[2] === pending.code) {
+    clearTimeout(pending.timer); const p = pending; pending = null;
+    p.resolve(fr.subarray(4, fr.length - 1));
+    next();
+  } else log('rx', 'unexpected ' + hex(fr));
+}
+function next() {
+  if (pending || !queue.length || !writer) return;
+  const q = queue.shift(); pending = q;
+  q.timer = setTimeout(() => { if (pending === q) { pending = null; q.reject(new Error('timeout cmd 0x' + q.cmd.toString(16))); next(); } }, q.timeout);
+  writer.write(q.data).catch(e => { if (pending === q) { clearTimeout(q.timer); pending = null; q.reject(e); next(); } });
+}
+function xfer(cmd, payload = [], { timeout = 250, quiet = false } = {}) {
+  return new Promise((resolve, reject) => {
+    const data = frame(cmd, payload);
+    if (!quiet) log('tx', hex(data));
+    queue.push({ cmd, code: cmd + 0x10, data, timeout, timer: null, quiet,
+      resolve: (v) => { if (!quiet) log('rx', '0x' + (cmd + 0x10).toString(16) + ' ' + hex(v)); resolve(v); }, reject });
+    next();
+  });
+}
+
+// ---------- Transport abstraction: SWD bridge (HTTP) or Web Serial ----------
+let bridge = null;   // non-null when served by swd_bridge.py
+const serialApi = {
+  async setParam(i, v) { const r = await xfer(0x60, [i, ...f32(v)]); return { value: rdF(r, 1), ok: !!r[5], count: r[6] }; },
+  async getParam(i)    { const r = await xfer(0x61, [i], { quiet: true }); return { value: rdF(r, 1), ok: !!r[5], count: r[6] }; },
+  async preset(i)      { await xfer(0x64, [i]); },
+  async motor(on)      { await xfer(0x00, [on ? 1 : 0]); },
+  async zero()         { await xfer(0x08, [...i32(0)]); },
+  async telemetry() {
+    const a = await xfer(0x62, [], { quiet: true, timeout: 150 });
+    const b = await xfer(0x63, [], { quiet: true, timeout: 150 });
+    return { pos: rdI(a, 0), ang: rdF(a, 4), tq: rdF(a, 8), cur: rdF(b, 0), rps: rdF(b, 4), sub: rdF(b, 8) };
+  },
+  busy() { return pending || queue.length; },
+};
+async function post(cmd, idx = 0, value = 0) {
+  const r = await fetch('/api/cmd', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ cmd, idx, value }) });
+  const j = await r.json(); if (j.error) throw new Error(j.error); return j;
+}
+const bridgeApi = {
+  async setParam(i, v) { log('tx', `set[${i}] = ${v}`); const j = await post('set', i, v); log('rx', `  -> ${j.value} ${j.ok ? '' : '(rejected)'}`); return { value: j.value, ok: j.ok, count: 0 }; },
+  async getParam(i)    { const j = await post('get', i); return { value: j.value, ok: j.ok, count: 0 }; },
+  async preset(i)      { log('tx', 'preset ' + i); await post('preset', i); },
+  async motor(on)      { log('tx', 'motor ' + (on ? 'ON' : 'OFF')); await post('motor', on ? 1 : 0); },
+  async zero()         { log('tx', 'zero position'); await post('zero'); },
+  async telemetry() {
+    const r = await fetch('/api/telemetry'); const j = await r.json(); if (j.error) throw new Error(j.error);
+    return { pos: j.position, ang: j.angle_rad, tq: j.torque, cur: j.current_ma, rps: j.rps, sub: j.sub_position };
+  },
+  busy() { return false; },
+};
+let api = serialApi;
+function setConnectedUI(on) {
+  for (const id of ['readAll', 'zero', 'motorOn', 'motorOff', 'poll', 'profSave']) $(id).disabled = !on;
+}
+async function connectBridge() {
+  api = bridgeApi; bridge = true;
+  setStatus('SWD bridge', 'on');
+  $('connect').textContent = 'Connected via SWD'; $('connect').disabled = true;
+  $('baud').disabled = true; $('mid').disabled = true;
+  setConnectedUI(true);
+  await readAll();
+  port = { bridge: true };   // pollLoop runs while `port` is truthy
+  pollLoop();
+}
+
+// ---------- Parameters UI ----------
+const state = {};      // key -> value on device
+const ui = {};         // key -> {range, num, row}
+const byIdx = {};
+function buildParams() {
+  const host = $('params');
+  for (const p of PARAMS) {
+    if (p.g) { const d = document.createElement('div'); d.className = 'param group'; d.textContent = p.g; host.appendChild(d); continue; }
+    byIdx[p.i] = p;
+    const row = document.createElement('div'); row.className = 'param';
+    row.innerHTML = `<label>${p.name}<small>${p.hint}</small></label>
+      <input type="number" step="${p.step}" min="${p.min}" max="${p.max}">
+      <input type="range" step="${p.step}" min="${p.min}" max="${p.max}">`;
+    const num = row.querySelector('input[type=number]'), range = row.querySelector('input[type=range]');
+    range.oninput = () => { num.value = range.value; row.classList.add('dirty'); scheduleSend(p, +range.value); };
+    num.onchange = () => { range.value = num.value; row.classList.add('dirty'); scheduleSend(p, +num.value); };
+    host.appendChild(row); ui[p.key] = { range, num, row };
+  }
+}
+const sendTimers = {};
+function scheduleSend(p, v) {
+  clearTimeout(sendTimers[p.key]);
+  sendTimers[p.key] = setTimeout(() => setParam(p, v), 60);
+}
+async function setParam(p, v) {
+  if (!port) return;
+  try { applyReadback(p, await api.setParam(p.i, v)); }
+  catch (e) { log('er', e.message); }
+}
+function applyReadback(p, r) {
+  const v = r.value, ok = r.ok;
+  state[p.key] = v;
+  const u = ui[p.key]; u.num.value = fmt(v); u.range.value = v; u.row.classList.remove('dirty');
+  if (!ok) log('er', `param ${p.name} rejected` + (r.count ? ` (fw has ${r.count} params)` : ''));
+  updateCLine();
+}
+const fmt = (v) => v === undefined ? '?' : Math.abs(v) >= 100 ? Math.round(v) : +v.toPrecision(4);
+async function readAll() {
+  for (const p of PARAMS) {
+    if (p.g) continue;
+    try { applyReadback(p, await api.getParam(p.i)); }
+    catch (e) { log('er', e.message); }
+  }
+  log('rx', 'read all parameters');
+}
+function updateCLine() {
+  const s = state; if (s.p_gain === undefined) return;
+  const name = ($('cline').dataset.name || 'tuned');
+  $('cline').value = `{ ${Math.round(s.detents ?? 12)}, ${Math.round(s.positions ?? 0)}, ${Math.round(s.p_gain)}, ${Math.round(s.torque_limit)}, ${(+s.dead_zone).toFixed(2)}f, 0xFFFFFF, "${name}" },` +
+    `\n// also in effect: D=${fmt(s.d_gain)} snap=${fmt(s.snap_point)} coast=${fmt(s.coast_thr)} cutoff=${fmt(s.vel_cutoff)} dz_cap=${fmt(s.dead_zone_deg)}°`;
+}
+
+// ---------- Presets / motor ----------
+function buildPresets() {
+  const host = $('presets');
+  PRESET_NAMES.forEach((n, i) => {
+    const b = document.createElement('button'); b.disabled = true; b.dataset.preset = '1';
+    b.innerHTML = `<span class="sw" style="background:${PRESET_COLORS[i]}"></span>${n}`;
+    b.onclick = async () => { try { await api.preset(i); await readAll(); } catch (e) { log('er', e.message); } };
+    host.appendChild(b);
+  });
+}
+$('motorOn').onclick = () => api.motor(true).catch(e => log('er', e.message));
+$('motorOff').onclick = () => api.motor(false).catch(e => log('er', e.message));
+$('zero').onclick = () => api.zero().catch(e => log('er', e.message));
+$('readAll').onclick = readAll;
+$('connect').onclick = connect;
+$('clearLog').onclick = () => $('log').textContent = '';
+
+// ---------- Telemetry ----------
+const hist = [];  // {t, pos, ang, tq, cur, rps, sub}
+let last = { pos: 0, ang: 0, tq: 0, cur: 0, rps: 0, sub: 0 };
+let pollCount = 0, pollT0 = performance.now();
+async function pollLoop() {
+  while (port) {
+    if (!$('poll').checked || api.busy()) { await sleep(20); continue; }
+    try {
+      last = await api.telemetry();
+      hist.push({ t: performance.now() / 1000, ...last });
+      const winS = +$('win').value; while (hist.length && hist[0].t < hist[hist.length - 1].t - winS) hist.shift();
+      pollCount++;
+      const now = performance.now(); if (now - pollT0 > 1000) { $('sHz').textContent = (pollCount * 1000 / (now - pollT0)).toFixed(0); pollCount = 0; pollT0 = now; }
+      $('sPos').textContent = last.pos; $('sSub').textContent = last.sub.toFixed(2);
+      $('sAng').textContent = (last.ang * 180 / Math.PI).toFixed(1); $('sTq').textContent = last.tq.toFixed(0);
+      $('sCur').textContent = last.cur.toFixed(0); $('sRps').textContent = last.rps.toFixed(2);
+    } catch (e) { await sleep(100); }
+    // No timer here: the round-trip itself paces the loop (timers are throttled
+    // to 1 Hz in background tabs, which would also throttle the plot).
+    if (!bridge) await sleep(5);
+  }
+}
+const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+
+function draw() {
+  requestAnimationFrame(draw);
+  drawChart(); drawKnob();
+}
+function drawChart() {
+  const c = $('chart'), g = c.getContext('2d'), W = c.width, H = c.height;
+  g.fillStyle = '#1f232c'; g.fillRect(0, 0, W, H);
+  g.strokeStyle = '#2a2f3a'; g.beginPath(); g.moveTo(0, H / 2); g.lineTo(W, H / 2); g.stroke();
+  if (hist.length < 2) return;
+  const winS = +$('win').value, tEnd = hist[hist.length - 1].t, tStart = tEnd - winS;
+  const x = (t) => (t - tStart) / winS * W;
+  const lim = Math.max(1, state.torque_limit || 900), cut = Math.max(0.5, state.vel_cutoff || 8);
+  const series = [
+    ['#ff7043', (h) => h.tq / lim], ['#ab47bc', (h) => h.sub], ['#4fc3f7', (h) => h.rps / cut],
+  ];
+  for (const [col, f] of series) {
+    g.strokeStyle = col; g.lineWidth = 1.5; g.beginPath();
+    hist.forEach((h, i) => { const y = H / 2 - Math.max(-1, Math.min(1, f(h))) * (H / 2 - 6); i ? g.lineTo(x(h.t), y) : g.moveTo(x(h.t), y); });
+    g.stroke();
+  }
+  // position change markers
+  g.fillStyle = 'rgba(255,255,255,.35)';
+  for (let i = 1; i < hist.length; i++) if (hist[i].pos !== hist[i - 1].pos) g.fillRect(x(hist[i].t), 0, 1, H);
+}
+function drawKnob() {
+  const c = $('knob'), g = c.getContext('2d'), W = c.width, cx = W / 2, R = W * 0.42;
+  g.fillStyle = '#1f232c'; g.fillRect(0, 0, W, W);
+  const n = Math.max(1, Math.round(state.detents || 12)), npos = Math.round(state.positions || 0);
+  // Detent centers are relative (re-seeded on config), so draw ticks relative to the
+  // current center; sub = -(angle - center)/width  =>  center = angle + sub*width.
+  const width = 2 * Math.PI / n, center = last.ang + last.sub * width;
+  g.strokeStyle = '#2a2f3a'; g.lineWidth = 2; g.beginPath(); g.arc(cx, cx, R, 0, 2 * Math.PI); g.stroke();
+  for (let k = 0; k < n; k++) {
+    const a = center + k * width;
+    // increasing angle == decreasing position (see handle_smart_knob)
+    const rel = (k <= n / 2) ? -k : n - k;
+    const outside = npos > 0 && (last.pos + rel < 0 || last.pos + rel >= npos);
+    g.strokeStyle = outside ? '#3a3f4a' : '#8b93a5'; g.lineWidth = k === 0 ? 4 : 2;
+    g.beginPath(); g.moveTo(cx + Math.cos(-a) * (R - 10), cx + Math.sin(-a) * (R - 10)); g.lineTo(cx + Math.cos(-a) * (R + 10), cx + Math.sin(-a) * (R + 10)); g.stroke();
+  }
+  // dead zone arc around current center
+  const dz = Math.min((state.dead_zone || 0) * width, (state.dead_zone_deg || 60) * Math.PI / 180);
+  g.strokeStyle = 'rgba(129,199,132,.5)'; g.lineWidth = 6; g.beginPath(); g.arc(cx, cx, R, -center - dz, -center + dz); g.stroke();
+  // pointer
+  const a = -last.ang;
+  g.strokeStyle = '#e6e8ee'; g.lineWidth = 4; g.beginPath(); g.moveTo(cx, cx); g.lineTo(cx + Math.cos(a) * (R - 20), cx + Math.sin(a) * (R - 20)); g.stroke();
+  // torque arrow (tangential) at the tip
+  const lim = Math.max(1, state.torque_limit || 900), tq = Math.max(-1, Math.min(1, last.tq / lim));
+  g.strokeStyle = '#ff7043'; g.lineWidth = 5; g.beginPath(); g.arc(cx, cx, R - 30, a, a - tq * 1.2, tq > 0); g.stroke();
+  g.fillStyle = '#e6e8ee'; g.font = `${W * 0.12}px ui-sans-serif, sans-serif`; g.textAlign = 'center';
+  g.fillText(last.pos, cx, cx + W * 0.04);
+}
+
+// ---------- Profiles ----------
+const LS = 'roller485.tuner.profiles';
+function loadProfiles() { try { return JSON.parse(localStorage.getItem(LS) || '{}'); } catch { return {}; } }
+function saveProfiles(p) { localStorage.setItem(LS, JSON.stringify(p)); renderProfiles(); }
+function renderProfiles() {
+  const host = $('profiles'); host.innerHTML = '';
+  const p = loadProfiles(); const names = Object.keys(p);
+  if (!names.length) { host.innerHTML = '<span class="hint">No saved profiles yet.</span>'; return; }
+  for (const n of names) {
+    const b = document.createElement('button'); b.textContent = n; b.title = 'click: apply · shift-click: delete';
+    b.onclick = async (ev) => {
+      if (ev.shiftKey) { delete p[n]; saveProfiles(p); return; }
+      $('cline').dataset.name = n;
+      await applyProfile(p[n]);
+    };
+    host.appendChild(b);
+  }
+}
+async function applyProfile(vals) {
+  if (!port) { log('er', 'connect first'); return; }
+  // layout first (re-seeds), then the rest
+  const order = PARAMS.filter(p => !p.g).sort((a, b) => (b.i === 9 || b.i === 10) - (a.i === 9 || a.i === 10));
+  for (const p of order) if (vals[p.key] !== undefined) await setParam(p, vals[p.key]);
+}
+$('profSave').onclick = () => {
+  const n = prompt('Profile name', $('cline').dataset.name || 'tuned'); if (!n) return;
+  const p = loadProfiles(); p[n] = { ...state }; $('cline').dataset.name = n; saveProfiles(p); updateCLine();
+};
+$('profExport').onclick = () => {
+  const blob = new Blob([JSON.stringify({ current: state, profiles: loadProfiles() }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'roller485-tuning.json'; a.click();
+};
+$('profImport').onclick = () => {
+  const inp = document.createElement('input'); inp.type = 'file'; inp.accept = '.json';
+  inp.onchange = async () => {
+    const j = JSON.parse(await inp.files[0].text());
+    const p = loadProfiles(); Object.assign(p, j.profiles || {}); if (j.current && !j.profiles) p['imported'] = j.current;
+    saveProfiles(p);
+  };
+  inp.click();
+};
+
+// ---------- boot ----------
+buildParams(); buildPresets(); renderProfiles(); draw();
+fetch('/api/ping', { cache: 'no-store' }).then(r => r.ok ? r.json() : null).then(j => {
+  if (j && j.bridge === 'swd') { log('rx', 'SWD bridge detected, mailbox @ ' + j.mailbox); return connectBridge(); }
+  if (!('serial' in navigator)) { $('nosupport').hidden = false; $('connect').disabled = true; }
+}).catch(() => { if (!('serial' in navigator)) { $('nosupport').hidden = false; $('connect').disabled = true; } });
+document.addEventListener('keydown', (e) => { if (e.code === 'Space' && e.target === document.body && port) { e.preventDefault(); $('motorOff').click(); } });
+const origEnable = (on) => document.querySelectorAll('[data-preset]').forEach(b => b.disabled = !on);
+new MutationObserver(() => origEnable(!$('readAll').disabled)).observe($('readAll'), { attributes: true });
+</script>
+</body>
+</html>

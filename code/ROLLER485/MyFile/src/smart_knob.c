@@ -26,7 +26,7 @@
 #define DEFAULT_DETENT_STRENGTH 200       /* -> P-gain 2000, firm click at the snap */
 
 #define FOC_PID_P (DEFAULT_DETENT_STRENGTH * DETENT_STRENGTH_SCALE)
-#define FOC_PID_I 0
+#define FOC_PID_I 50    /* small integral: holds center against residual drag */
 #define FOC_PID_D 1     /* velocity damping: high values feel draggy/stiff between detents */
 #define FOC_PID_OUTPUT_RAMP 100000
 #define FOC_PID_LIMIT 10
@@ -36,10 +36,12 @@
 
 // Below this commanded torque (mA-equivalent) the motor coasts instead of
 // holding zero current, so the free part of each detent has no FOC braking.
-#define DETENT_COAST_THRESHOLD 25.0f
+float DETENT_COAST_THRESHOLD = 25.0f;
+// Above this |rps| torque is dropped and the driver coasts (runaway guard).
+float DETENT_VEL_CUTOFF = 8.0f;
 
 float DEAD_ZONE_DETENT_PERCENT = 0.4;      /* free fraction of each detent (per-preset in demo) */
-float DEAD_ZONE_RAD = 60 * PI / 180;       /* absolute cap, raised so the fraction governs */
+float DEAD_ZONE_RAD = 15 * PI / 180;       /* absolute cap on the free zone per detent */
 
 float IDLE_VELOCITY_EWMA_ALPHA = 0.001;
 float IDLE_VELOCITY_RAD_PER_SEC = 0.05;
@@ -155,8 +157,8 @@ void set_detent_strength(uint8_t strength)
 // its two positions like a real switch.
 //                spacing positions p_gain limit  dead   color     name
 const detent_preset_t demo_presets[] = {
+    { 36,  0, 5000, 800, 0.35f, 0x00FFFF, "36 tuned"   },  // boot default (tuned)   - cyan
     { 12,  0, 5500, 900, 0.35f, 0x00FF00, "12 detents" },  // continuous 12/rev      - green
-    { 36,  0, 5000, 800, 0.35f, 0x00FFFF, "36 fine"    },  // fine continuous        - cyan
     {  4,  0, 5000, 950, 0.38f, 0x0000FF, "4 coarse"   },  // chunky, mostly smooth  - blue
     { 12, 12, 5500, 900, 0.35f, 0xFF00FF, "12 bounded" },  // 12 positions + ends    - magenta
     { 12,  2, 3600, 900, 0.12f, 0xFFFF00, "on / off"   },  // 2-position switch hold - yellow
@@ -177,6 +179,110 @@ void apply_detent_preset(uint8_t idx)
     // the fraction governs even for wide/few detents).
     DEAD_ZONE_DETENT_PERCENT = p->dead_zone;
     detent_strength = p->p_gain > 2550 ? 255 : (uint8_t)(p->p_gain / DETENT_STRENGTH_SCALE);
+}
+
+// ---- Live tuning parameter table (see detent_param_t in smart_knob.h) ----
+float detent_param_get(uint8_t idx)
+{
+    switch (idx) {
+    case TP_P_GAIN:             return motor_pid_velocity_p;
+    case TP_I_GAIN:             return motor_pid_velocity_i;
+    case TP_D_GAIN:             return motor_pid_velocity_d;
+    case TP_TORQUE_LIMIT:       return motor_pid_velocity_limit;
+    case TP_OUTPUT_RAMP:        return motor_pid_velocity_output_ramp;
+    case TP_DEAD_ZONE_PCT:      return DEAD_ZONE_DETENT_PERCENT;
+    case TP_DEAD_ZONE_DEG:      return DEAD_ZONE_RAD * 180.0f / PI;
+    case TP_SNAP_POINT:         return config.snap_point;
+    case TP_SNAP_BIAS:          return config.snap_point_bias;
+    case TP_DETENTS_PER_REV:    return (float)num_detents;
+    case TP_NUM_POSITIONS:      return detent_bounded ? (float)(config.max_position - config.min_position + 1) : 0.0f;
+    case TP_COAST_THRESHOLD:    return DETENT_COAST_THRESHOLD;
+    case TP_VEL_CUTOFF:         return DETENT_VEL_CUTOFF;
+    case TP_IDLE_VEL:           return IDLE_VELOCITY_RAD_PER_SEC;
+    case TP_IDLE_DELAY_MS:      return (float)IDLE_CORRECTION_DELAY_MILLIS;
+    case TP_IDLE_MAX_ANGLE_DEG: return IDLE_CORRECTION_MAX_ANGLE_RAD * 180.0f / PI;
+    case TP_IDLE_RATE_ALPHA:    return IDLE_CORRECTION_RATE_ALPHA;
+    default:                    return 0.0f;
+    }
+}
+
+uint8_t detent_param_set(uint8_t idx, float v)
+{
+    if (v != v) return 0;   // NaN guard
+    switch (idx) {
+    case TP_P_GAIN:             motor_pid_velocity_p = CONSTRAIN(v, 0.0f, 20000.0f); break;
+    case TP_I_GAIN:             motor_pid_velocity_i = CONSTRAIN(v, 0.0f, 20000.0f); break;
+    case TP_D_GAIN:             motor_pid_velocity_d = CONSTRAIN(v, 0.0f, 500.0f); break;
+    case TP_TORQUE_LIMIT:       motor_pid_velocity_limit = CONSTRAIN(v, 0.0f, 1200.0f); break;
+    case TP_OUTPUT_RAMP:        motor_pid_velocity_output_ramp = CONSTRAIN(v, 0.0f, 1e7f); break;
+    case TP_DEAD_ZONE_PCT:      DEAD_ZONE_DETENT_PERCENT = CONSTRAIN(v, 0.0f, 0.5f); break;
+    case TP_DEAD_ZONE_DEG:      DEAD_ZONE_RAD = CONSTRAIN(v, 0.0f, 180.0f) * PI / 180.0f; break;
+    case TP_SNAP_POINT:         config.snap_point = CONSTRAIN(v, 0.1f, 1.5f); break;
+    case TP_SNAP_BIAS:          config.snap_point_bias = CONSTRAIN(v, -0.5f, 0.5f); break;
+    case TP_DETENTS_PER_REV: {
+        int32_t n = detent_bounded ? (config.max_position - config.min_position + 1) : 0;
+        set_detent_config_ex((uint16_t)CONSTRAIN(v, 1.0f, 256.0f), n);
+        break;
+    }
+    case TP_NUM_POSITIONS:
+        set_detent_config_ex(num_detents, (int32_t)CONSTRAIN(v, 0.0f, 100000.0f));
+        break;
+    case TP_COAST_THRESHOLD:    DETENT_COAST_THRESHOLD = CONSTRAIN(v, 0.0f, 1200.0f); break;
+    case TP_VEL_CUTOFF:         DETENT_VEL_CUTOFF = CONSTRAIN(v, 0.5f, 100.0f); break;
+    case TP_IDLE_VEL:           IDLE_VELOCITY_RAD_PER_SEC = CONSTRAIN(v, 0.0f, 10.0f); break;
+    case TP_IDLE_DELAY_MS:      IDLE_CORRECTION_DELAY_MILLIS = (uint32_t)CONSTRAIN(v, 0.0f, 60000.0f); break;
+    case TP_IDLE_MAX_ANGLE_DEG: IDLE_CORRECTION_MAX_ANGLE_RAD = CONSTRAIN(v, 0.0f, 90.0f) * PI / 180.0f; break;
+    case TP_IDLE_RATE_ALPHA:    IDLE_CORRECTION_RATE_ALPHA = CONSTRAIN(v, 0.0f, 1.0f); break;
+    default: return 0;
+    }
+    return 1;
+}
+
+// ---- SWD mailbox ----
+tune_mailbox_t tune_mailbox = { .magic = TUNE_MAGIC, .param_count = TP_COUNT };
+
+void tune_mailbox_service(void)
+{
+    tune_mailbox_t *m = &tune_mailbox;
+    m->preset_count = demo_preset_count;
+    m->preset_index = demo_preset_index;
+    m->motor_on = !motor_disable_flag;
+    if (m->req_seq == m->ack_seq) return;
+
+    m->status = 1;
+    switch (m->cmd) {
+    case TUNE_CMD_SET:
+        m->status = detent_param_set((uint8_t)m->idx, m->value);
+        m->result = detent_param_get((uint8_t)m->idx);
+        break;
+    case TUNE_CMD_GET:
+        m->status = m->idx < TP_COUNT;
+        m->result = detent_param_get((uint8_t)m->idx);
+        break;
+    case TUNE_CMD_PRESET:
+        apply_detent_preset((uint8_t)m->idx);
+        m->result = motor_pid_velocity_p;
+        break;
+    case TUNE_CMD_MOTOR:
+        if (m->idx) {
+            if (motor_disable_flag) init_smart_knob();
+            motor_disable_flag = 0;
+            motor_output = 1;
+            MotorDriverSetMode(MDRV_MODE_RUN);
+        } else {
+            motor_disable_flag = 1;
+            motor_output = 0;
+            MotorDriverSetMode(MDRV_MODE_OFF);
+        }
+        break;
+    case TUNE_CMD_ZERO:
+        current_position = 0;
+        break;
+    default:
+        m->status = 0;
+        break;
+    }
+    m->ack_seq = m->req_seq;
 }
 
 // Advance to the next demo preset (wraps). Called on a button click.
@@ -285,7 +391,7 @@ void handle_smart_knob(void)
 
 
     // Apply motor torque based on our angle to the nearest detent (detent strength, etc is handled by the PID_velocity parameters)
-    if (fabsf(motor_rps) > 8) {
+    if (fabsf(motor_rps) > DETENT_VEL_CUTOFF) {
         // Don't apply torque if velocity is too high (helps avoid positive feedback loop/runaway)
         MotorDriverSetCurrentReal(0.0f);
         MotorDriverCoast(1);                 // let it spin freely when flung
@@ -320,4 +426,12 @@ void handle_smart_knob(void)
             MotorDriverSetCurrentReal(-torque);
         }
     }
+
+    tune_mailbox.tick++;
+    tune_mailbox.position = current_position;
+    tune_mailbox.angle_rad = mechanical_rad;
+    tune_mailbox.torque = torque;
+    tune_mailbox.current_ma = ph_crrent_lpf;
+    tune_mailbox.rps = motor_rps;
+    tune_mailbox.sub_position = latest_sub_position_unit;
 }

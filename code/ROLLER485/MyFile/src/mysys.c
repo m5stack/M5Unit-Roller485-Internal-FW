@@ -544,6 +544,10 @@ void InitMysys(void)
   motor_disable_flag = 0;
   MotorDriverSetMode(MDRV_MODE_RUN);
 
+  // Tuning/demo build: always bring up BOTH RS485 and I2C so the web tuner
+  // (RS485 via a USB adapter) works regardless of the comm mode stored in flash.
+  comm_type = COMM_TYPE_485_I2C;
+
   if (comm_type == COMM_TYPE_I2C) {
     user_i2c_init();
     i2c1_it_enable();
@@ -602,6 +606,7 @@ void LoopMysys(void)
           usart_fault_flag = 0;
         }
         button_update();
+        tune_mailbox_service();   // SWD-attached tuner requests
         u8g2_disp_update_mode();
         // u8g2_disp_update_status();
         u8g2_disp_update_page();
@@ -618,8 +623,15 @@ void LoopMysys(void)
         // Demo: a button click cycles through the detent presets.
         if (my_button.was_click) {
           next_detent_preset();
-          update_demo_led();
           my_button.was_click = 0;
+        }
+        // Keep the LED in sync with the preset (button or RS485 0x64).
+        {
+          static uint8_t shown_preset = 0xFF;
+          if (demo_preset_index != shown_preset) {
+            shown_preset = demo_preset_index;
+            update_demo_led();
+          }
         }
         if (my_button.is_longlongpressed) {
           my_button.is_longlongpressed = 0;

@@ -22,6 +22,7 @@
 #include "stm32g4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include <string.h>
 #include "usart.h"
 #include "u8g2_disp_fun.h"
 #include "motordriver.h"
@@ -59,6 +60,68 @@ uint8_t change_baudrate_flag = 0;
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+
+// Send a standard 17-byte RS485 reply: AA 55 <code> <id> <payload[12]> <crc>.
+static void rs485_reply(uint8_t code, const void *payload, uint8_t n)
+{
+  HAL_GPIO_WritePin(GPIOB, RS485_DIR_Pin, GPIO_PIN_SET);
+  usart_tx_delay = HAL_GetTick();
+  usart_tx_flag = 1;
+  memset(dat_Uart1.pTxBuf, 0, 17);
+  dat_Uart1.pTxBuf[0] = 0xAA;
+  dat_Uart1.pTxBuf[1] = 0x55;
+  dat_Uart1.pTxBuf[2] = code;
+  dat_Uart1.pTxBuf[3] = motor_id;
+  if (n > 12) n = 12;
+  if (payload && n) memcpy(&dat_Uart1.pTxBuf[4], payload, n);
+  dat_Uart1.pTxBuf[16] = crc8_MAXIM(&dat_Uart1.pTxBuf[2], 14);
+  UART_DMA_Send(USART3, dat_Uart1.pTxBuf, 17);
+}
+
+// Detent tuning commands (reply code = cmd + 0x10). Frame: [cmd][id][payload..][crc@14].
+//   0x60 set param : [idx][f32 value]      -> [idx][f32 readback][ok][TP_COUNT]
+//   0x61 get param : [idx]                 -> [idx][f32 value][1][TP_COUNT]
+//   0x62 telemetry : -                     -> [i32 position][f32 angle rad][f32 torque]
+//   0x63 telemetry2: -                     -> [f32 phase current][f32 rps][f32 sub_position]
+//   0x64 preset    : [idx]                 -> [idx][preset count][f32 p_gain]
+static void rs485_tuning_cmd(const uint8_t *rx)
+{
+  uint8_t out[12] = {0};
+  float f;
+  switch (rx[0]) {
+  case 0x60:
+    memcpy(&f, &rx[3], 4);
+    out[5] = detent_param_set(rx[2], f);
+    /* fallthrough: echo the value actually in effect */
+  case 0x61:
+    out[0] = rx[2];
+    f = detent_param_get(rx[2]);
+    memcpy(&out[1], &f, 4);
+    if (rx[0] == 0x61) out[5] = rx[2] < TP_COUNT;
+    out[6] = TP_COUNT;
+    break;
+  case 0x62:
+    memcpy(&out[0], (const void *)&current_position, 4);
+    memcpy(&out[4], (const void *)&mechanical_rad, 4);
+    memcpy(&out[8], (const void *)&torque, 4);
+    break;
+  case 0x63:
+    memcpy(&out[0], (const void *)&ph_crrent_lpf, 4);
+    memcpy(&out[4], (const void *)&motor_rps, 4);
+    memcpy(&out[8], (const void *)&latest_sub_position_unit, 4);
+    break;
+  case 0x64:
+    apply_detent_preset(rx[2]);
+    out[0] = demo_preset_index;
+    out[1] = demo_preset_count;
+    f = motor_pid_velocity_p;
+    memcpy(&out[2], &f, 4);
+    break;
+  default:
+    return;
+  }
+  rs485_reply(rx[0] + 0x10, out, sizeof out);
+}
 
 void Usart_Receive_Data(USART_TypeDef *USARTx)
 {
@@ -587,6 +650,10 @@ void Usart_Receive_Data(USART_TypeDef *USARTx)
             dat_Uart1.pTxBuf[14+2] = crc8_MAXIM((uint8_t *)&dat_Uart1.pTxBuf[0+2], 14);
             UART_DMA_Send(USART3, dat_Uart1.pTxBuf, 17);            
             break;  
+
+          case 0x60: case 0x61: case 0x62: case 0x63: case 0x64:
+            rs485_tuning_cmd(dat_Uart1.pRxBuf);
+            break;
 
           case 0x24:
             memcpy((uint8_t *)&current_point, &dat_Uart1.pRxBuf[2], 4);

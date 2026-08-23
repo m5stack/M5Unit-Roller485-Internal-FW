@@ -145,6 +145,69 @@ extern const detent_preset_t demo_presets[];
 extern const uint8_t demo_preset_count;
 extern uint8_t demo_preset_index;
 
+// Live tuning parameters (RS485 cmds 0x60/0x61, I2C-free). Index-addressed
+// floats so the host tuner can read/write every knob of the haptic model.
+typedef enum {
+    TP_P_GAIN = 0,        // detent spring P-gain (torque per rad of error)
+    TP_I_GAIN,            // integral gain (normally 0)
+    TP_D_GAIN,            // velocity damping
+    TP_TORQUE_LIMIT,      // max |torque| (mA-equivalent)
+    TP_OUTPUT_RAMP,       // max torque slew (units/s)
+    TP_DEAD_ZONE_PCT,     // free fraction of each detent (0..0.5)
+    TP_DEAD_ZONE_DEG,     // absolute dead-zone cap (degrees)
+    TP_SNAP_POINT,        // sub-position where we snap to the next detent (0.5..1.5)
+    TP_SNAP_BIAS,         // asymmetric snap bias (normally 0)
+    TP_DETENTS_PER_REV,   // detent spacing (1..256)
+    TP_NUM_POSITIONS,     // 0 = continuous, N = bounded to N positions
+    TP_COAST_THRESHOLD,   // |torque| below which the driver coasts
+    TP_VEL_CUTOFF,        // |rps| above which torque is dropped (runaway guard)
+    TP_IDLE_VEL,          // idle-detect velocity threshold (rps)
+    TP_IDLE_DELAY_MS,     // idle time before center correction starts
+    TP_IDLE_MAX_ANGLE_DEG,// only correct center if within this angle
+    TP_IDLE_RATE_ALPHA,   // center correction EWMA rate
+    TP_COUNT
+} detent_param_t;
+
+extern float DETENT_COAST_THRESHOLD;
+extern float DETENT_VEL_CUTOFF;
+extern float torque;
+extern float latest_sub_position_unit;
+
+// Returns 1 on success, 0 if idx is out of range.
+uint8_t detent_param_set(uint8_t idx, float value);
+float   detent_param_get(uint8_t idx);
+
+// SWD tuning mailbox: a host attached over SWD (no serial path needed) writes a
+// request here and the main loop services it. Telemetry is refreshed from the
+// control loop so one block read gives a consistent snapshot.
+#define TUNE_MAGIC 0x454E5554u   /* 'TUNE' */
+enum { TUNE_CMD_NONE = 0, TUNE_CMD_SET = 1, TUNE_CMD_GET = 2, TUNE_CMD_PRESET = 3,
+       TUNE_CMD_MOTOR = 4, TUNE_CMD_ZERO = 5 };
+typedef struct {
+    uint32_t magic;
+    volatile uint32_t req_seq;    // host: increment after filling cmd/idx/value
+    volatile uint32_t ack_seq;    // fw: set to req_seq when handled
+    volatile uint32_t cmd;
+    volatile uint32_t idx;
+    volatile float    value;
+    volatile float    result;     // readback / result of the command
+    volatile uint32_t status;     // 1 = ok, 0 = rejected
+    volatile uint32_t param_count;
+    volatile uint32_t preset_count;
+    volatile uint32_t preset_index;
+    // telemetry (written by the control loop)
+    volatile uint32_t tick;
+    volatile int32_t  position;
+    volatile float    angle_rad;
+    volatile float    torque;
+    volatile float    current_ma;
+    volatile float    rps;
+    volatile float    sub_position;
+    volatile uint32_t motor_on;
+} tune_mailbox_t;
+extern tune_mailbox_t tune_mailbox;
+void tune_mailbox_service(void);   // call from the main loop
+
 void init_smart_knob(void);
 void handle_smart_knob(void);
 void set_detent_config(uint16_t detents, uint8_t bounded);
