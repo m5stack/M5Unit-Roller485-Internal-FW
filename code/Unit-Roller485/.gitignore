@@ -1,0 +1,4 @@
+# CMake generated files
+/build/
+/debug.log
+/VERSION_UPGRADE_PLAN.md

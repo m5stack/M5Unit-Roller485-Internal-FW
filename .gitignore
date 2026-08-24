@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+
+# Local CMake overrides and generated output
+**/build/
+**/out/
+CMakeUserPresets.json
+compile_commands.json

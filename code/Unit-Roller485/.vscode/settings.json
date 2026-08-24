@@ -1,0 +1,17 @@
+{
+  "cmake.useCMakePresets": "always",
+  "cmake.configureOnOpen": true,
+  "cmake.options.statusBarVisibility": "visible",
+  "cmake.options.advanced": {
+    "configurePreset": {
+      "statusBarVisibility": "visible"
+    },
+    "buildTarget": {
+      "statusBarVisibility": "visible"
+    },
+    "build": {
+      "statusBarVisibility": "visible",
+      "projectStatusVisibility": "visible"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "cwd": "${workspaceFolder}",
+      "executable": "build/Debug/ROLLER485_Bootloader.elf",
+      "name": "Debug with J-Link",
+      "request": "launch",
+      "type": "cortex-debug",
+      "device": "STM32G431CB",
+      "interface": "swd",
+      "runToEntryPoint": "main",
+      "showDevDebugOutput": "none",
+      "servertype": "jlink"
+    }
+  ]
+}

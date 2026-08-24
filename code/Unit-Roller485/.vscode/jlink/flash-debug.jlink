@@ -1,0 +1,6 @@
+r
+h
+loadfile build/Debug/ROLLER485.elf
+r
+g
+exit

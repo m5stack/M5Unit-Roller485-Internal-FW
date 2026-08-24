@@ -19,6 +19,39 @@ This project references the following open source projects.
 - [PID_Controller](https://github.com/tcleg/PID_Controller)
 - [u8g2](https://github.com/olikraus/u8g2)
 
+## Build
+
+Install CMake, Ninja, and Arm GNU Toolchain, then add their executable
+directories to `PATH`. As an alternative, set `ARM_GNU_TOOLCHAIN_PATH` to the
+Arm GNU Toolchain installation directory or its `bin` directory.
+
+Run the following commands from `code/Unit-Roller485` or
+`code/Unit-Roller485-Bootloader`:
+
+```shell
+cmake --preset Debug
+cmake --build --preset Debug
+```
+
+For J-Link flashing/debugging, install the SEGGER software normally or set
+`JLINK_PATH`/`JLINK_HOME` to its installation directory. The application also
+accepts `-DJLINK_COMMANDER=<executable>` as a local CMake override. Keep such
+machine-specific values in the ignored `CMakeUserPresets.json`, not in tracked
+project files.
+
+VS Code Cortex-Debug additionally requires `arm-none-eabi-gdb` and
+`JLinkGDBServerCL.exe` on `PATH`. Alternatively, configure the user-level
+`cortex-debug.armToolchainPath.windows` and
+`cortex-debug.JLinkGDBServerPath.windows` settings.
+
+## Version Changes: V1 -> V2
+
+- Migrated the application and bootloader from MDK-ARM to CMake with unified Debug/Release, J-Link, `.bin`, and `.hex` workflows.
+- Reorganized the source tree, standardized formatting, and removed legacy Keil project files and generated artifacts.
+- Extended the I2C and RS485 protocols with position readback, UID, product ID, firmware information, parameter readback, calibration, and protection functions.
+- Fixed long-running control and communication issues, including speed accumulation overflow, PID limiting, position state timing, calibration persistence, and I2C compatibility handling.
+- Improved Bootloader/IAP update support and release packaging. The current Roller485 application firmware is V2.
+
 ## License
 
 - [smartknob][] Copyright (c) 2022 Scott Bezek and licensed under Apache License, Version 2.0 License.
