@@ -50,7 +50,13 @@ VS Code Cortex-Debug additionally requires `arm-none-eabi-gdb` and
 - Reorganized the source tree, standardized formatting, and removed legacy Keil project files and generated artifacts.
 - Extended the I2C and RS485 protocols with position readback, UID, product ID, firmware information, parameter readback, calibration, and protection functions.
 - Fixed long-running control and communication issues, including speed accumulation overflow, PID limiting, position state timing, calibration persistence, and I2C compatibility handling.
-- Improved Bootloader/IAP update support and release packaging. The current Roller485 application firmware is V2.
+- Improved Bootloader/IAP update support and release packaging. The Roller485 V2 application firmware completed the
+  protocol and control upgrade described above.
+
+## Version Changes: V2 -> V3
+
+- Fixed the RS485-to-I2C 16-bit register write length so the complete payload is transmitted.
+- Updated the Roller485 application firmware version to V3.
 
 ## License
 

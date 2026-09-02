@@ -323,7 +323,7 @@ uint8_t I2C_Write_16bits_reg_Bytes(uint8_t DeviceAddress, uint16_t MemAddress, u
     tx_buffer[1] = ((MemAddress >> 8) & 0xff);
     memcpy(&tx_buffer[2], pData, TxLen);
 
-    return I2C1_TransmitData(DeviceAddress, tx_buffer, TxLen + 1, Timeout);
+    return I2C1_TransmitData(DeviceAddress, tx_buffer, TxLen + 2, Timeout);
 }
 
 uint8_t I2C_Read_Bytes(uint8_t DeviceAddress, uint8_t MemAddress, uint8_t *pData, uint8_t RxLen, uint16_t Timeout)

@@ -20,7 +20,7 @@
 #include "usart.h"
 #include "u8g2_disp_fun.h"
 
-#define FIRMWARE_VERSION   (2)
+#define FIRMWARE_VERSION   (3)
 #define UID_REG_ADDR_START (0xE0)
 #define UID_REG_ADDR_END   (0xEB)
 #define UID_REG_LENGTH     (UID_REG_ADDR_END - UID_REG_ADDR_START + 1)
