@@ -33,8 +33,8 @@ extern "C" {
 
 /* USER CODE BEGIN Private defines */
 #define PIXEL_MAX (2)
-#define BIT_1     (132)
-#define BIT_0     (77)
+#define BIT_1     (100)
+#define BIT_0     (50)
 
 /* USER CODE END Private defines */
 void sk6812_init(uint8_t num);
